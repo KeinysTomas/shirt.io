@@ -2236,10 +2236,12 @@ td ul {
 
   h2 {
     font-size: 22px;
+    line-height: 26px;
   }
 
   h1 {
     font-size: 28px;
+    line-height: 32px;
   }
 
   #hero {
