@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mens Fashion T-Shirt | Your Brand Name</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- recopy https://cdnjs.cloudflare.com/ajax later-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+
+
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="Stylish Mens Fashion T-Shirt. High-quality, comfortable, and perfect for any casual occasion. Available now for £35.00.">
+    <meta name="keywords" content="mens fashion, t-shirt, casual wear, stylish t-shirt, mens clothing">
+    
+
+
+    <!-- Open Graph tags for social media -->
+    <meta property="og:title" content="Mens Fashion T-Shirt | Your Brand Name">
+    <meta property="og:description" content="Stylish Mens Fashion T-Shirt. High-quality, comfortable, and perfect for any casual occasion. Available now for £35.00.">
+    <meta property="og:image" content="https://yourwebsite.com/path-to-product-image.jpg">
+    <meta property="og:url" content="https://yourwebsite.com/mens-fashion-t-shirt">
+    <meta property="og:type" content="product">
+    <meta property="og:price:amount" content="35.00">
+    <meta property="og:price:currency" content="GBP">
+    
+
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mens Fashion T-Shirt | Your Brand Name">
+    <meta name="twitter:description" content="Stylish Mens Fashion T-Shirt. High-quality, comfortable, and perfect for any casual occasion. Available now for £35.00.">
+    <meta name="twitter:image" content="https://yourwebsite.com/path-to-product-image.jpg">
+    
+
+    <!-- Optional: If you have a Twitter account for your brand -->
+    <meta name="twitter:site" content="@YourTwitterHandle">
+</head>
+<body>
+    
+
+    <section id="header">
+        <a href="#"><img src="img/logo.png" class="logo" alt=""></a>
+
+
+
+        <div id="search-container">
+            <div class="search-wrapper">
+              <i class="fa fa-search search-icon" aria-hidden="true"></i>
+              <input type="text" id="search-input" placeholder="Search products...">
+              
+            </div>
+            <div id="search-results"></div>
+          </div>
+          <button id="mobile-search-button">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </button>
+
+
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="lg-bag"><a class="active" href="cart.html"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a></li>
+                <a href="#" id="close"><i class="fa fa-window-close-o" aria-hidden="true"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+            <i id="bar" class="fa fa-bars" aria-hidden="true"></i>
+        </div>
+    </section>
+
+
+
+    <section id="page-header" class="about-header">
+        
+        <h2>#Lets Talk</h2>
+        
+        <p>LEAVE A MESSAGE, We love to hear from you!</p>
+        
+    </section>
+
+
+
+
+    <section id="cart" class="section-p1">
+      <table width="100%">
+        <thead>
+          <tr>
+            <td>Remove</td>
+            <td>Image</td>
+            <td>Product</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Subtotal</td>
+          </tr>
+        </thead>
+        <tbody id="cartBody">
+          <!-- Cart items will be dynamically added here -->
+        </tbody>
+      </table>
+    </section>
+
+
+
+
+
+
+
+
+
+
+    <!-- Static section From Tutorial- later delete completely 
+
+
+    <section id="cart" class="section-p1">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Remove</td>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                    <td>Subtotal</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a></td>
+                    <td><img src="img/products/f1.jpg" alt=""></td>
+                    <td>Cartoon T-Shirts</td>
+                    <td>£35.99</td>
+                    <td><input type="number" value="1"></td>
+                    <td>£35.99</td>
+                </tr>
+                <tr>
+                    <td><a href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a></td>
+                    <td><img src="img/products/f1.jpg" alt=""></td>
+                    <td>Cartoon T-Shirts</td>
+                    <td>£35.99</td>
+                    <td><input type="number" value="1"></td>
+                    <td>£35.99</td>
+                </tr>
+                <tr>
+                    <td><a href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a></td>
+                    <td><img src="img/products/f1.jpg" alt=""></td>
+                    <td>Cartoon T-Shirts</td>
+                    <td>£35.99</td>
+                    <td><input type="number" value="1"></td>
+                    <td>£35.99</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+
+
+    -->
+
+
+
+
+
+
+    <section id="cart-add" class="section-p1">
+        <div id="coupon">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" placeholder="Enter Your Coupon">
+                <button class="normal">Apply</button>
+            </div>
+        </div>
+
+        <div id="subtotal">
+          <h3>Cart Totals</h3>
+          <table>
+              <tr>
+                  <td>Cart Subtotal</td>
+                  <td id="cartSubtotal">£ 0.00</td>
+              </tr>
+              <tr>
+                  <td>Shipping</td>
+                  <td>£ 2.99</td>
+              </tr>
+              <tr>
+                  <td><strong>Total</strong></td>
+                  <td><strong id="cartTotal">£ 0.00</strong></td>
+              </tr>
+          </table>
+          <button class="normal" onclick="location.href='pgetaway.html'">Proceed to checkout</button>
+      </div>
+
+
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="img/logo.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Adress: </strong>321 High street, London</p>
+            <p><strong>Telephone: </strong>+44 58308431157</p>
+            <p><strong>Hours: </strong>10.00 - 19.00 mon - sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                    <i class="fa fa-twitter-square" aria-hidden="true"></i>
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                    <i class="fa fa-pinterest-square" aria-hidden="true"></i>
+                    <i class="fa fa-google-plus-square" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>        
+            <a href="#">About Us</a>
+            <a href="#">Delivery Info</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>        
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>Fram App Store or Google Play</p>
+            <div class="row">
+                <img src="img/pay/app.jpg" alt="">
+                <img src="img/pay/play.jpg" alt="">
+            </div>
+            <p>Secure Payment Getaways</p>
+            <img src="img/pay/pay.png" alt="">
+        </div>
+        <!-- recopy © symbol later-->
+        <div class="copyright">
+            
+            <p>© 2024 Copyright Ecommerce store</p>
+        </div>
+    </footer>
+
+
+
+
+    <script>
+      // Get the cart data from local storage
+let cartData = localStorage.getItem('cartData');
+cartData = cartData ? JSON.parse(cartData) : [];
+
+// Get the table body element to append the cart items
+const tableBody = document.querySelector('#cartBody');
+
+// Function to remove an item from the cart
+function removeCartItem(index) {
+    cartData.splice(index, 1);
+    localStorage.setItem('cartData', JSON.stringify(cartData));
+    updateCartDisplay();
+}
+
+// Function to update the quantity and subtotal of a cart item
+function updateCartItem(index, quantity) {
+    const item = cartData[index];
+    quantity = Math.max(1, parseInt(quantity));
+    item.quantity = quantity;
+    item.subtotal = item.price * quantity;
+    localStorage.setItem('cartData', JSON.stringify(cartData));
+    updateCartDisplay();
+}
+
+// Function to create a row for a cart item
+function createCartItemRow(item, index) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td><a href="#" onclick="removeCartItem(${index})"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a></td>
+        <td><img src="${item.image}" alt=""></td>
+        <td>${item.name}</td>
+        <td>${item.price.toFixed(2)}</td>
+        <td><input type="number" min="1" value="${item.quantity}" onchange="updateCartItem(${index}, this.value)"></td>
+        <td>${item.subtotal.toFixed(2)}</td>
+    `;
+    return row;
+}
+
+// Function to update the cart totals
+function updateCartTotals() {
+    const cartSubtotalElement = document.getElementById('cartSubtotal');
+    const cartTotalElement = document.getElementById('cartTotal');
+    const shippingCost = 2.99;
+
+    let subtotal = cartData.reduce((sum, item) => sum + item.subtotal, 0);
+    const total = subtotal + shippingCost;
+
+    cartSubtotalElement.textContent = `£ ${subtotal.toFixed(2)}`;
+    cartTotalElement.textContent = `£ ${total.toFixed(2)}`;
+}
+
+// Function to update the cart display
+function updateCartDisplay() {
+    tableBody.innerHTML = '';
+    cartData.forEach((item, index) => {
+        const row = createCartItemRow(item, index);
+        tableBody.appendChild(row);
+    });
+    updateCartTotals();
+}
+
+// Initial population of the table and totals
+updateCartDisplay();
+    </script>
+
+    
+
+    
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+    
+
+<script src="script.js"></script>  
+
+<script src="simple-search.js"></script>  
+</body>
+</html>
