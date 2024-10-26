@@ -2310,6 +2310,10 @@ td ul {
     width: 100%;
   }
 
+  .right-column {
+    padding: 0px;
+  }
+
   /* blog */
 
   #blog {
