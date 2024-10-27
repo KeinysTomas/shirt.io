@@ -2294,6 +2294,12 @@ td ul {
     text-align: start;
   }
 
+  /* shop */
+
+  #product1 .pro-container {
+    padding-top: 0px;
+}
+
   /* single product */
 
   #proDetails {
