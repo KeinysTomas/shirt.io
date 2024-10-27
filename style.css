@@ -2297,8 +2297,12 @@ td ul {
   /* shop */
 
   #product1 .pro-container {
-    padding-top: 0px;
-}
+    padding-top: 5px;
+  }
+
+  #product1 .pro-container h2{
+    padding-top: 20px;
+  }
 
   /* single product */
 
