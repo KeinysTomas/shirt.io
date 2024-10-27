@@ -2336,6 +2336,10 @@ td ul {
     width: 100%;
   }
 
+  #blog .blog-box h3 {
+    font-size: 50px;
+  }
+
   /* about page */
 
   #about-head {
