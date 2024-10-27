@@ -2340,6 +2340,10 @@ td ul {
     font-size: 50px;
   }
 
+  #blog .blog-details h2 {
+    font-size: 18px;
+  }
+
   /* about page */
 
   #about-head {
