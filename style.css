@@ -648,18 +648,20 @@ body {
   background-position: center;
 }
 
-#banner h4 {
-  color: #fff;
-  font-size: 16px;
-}
-
 #banner h2 {
   color: #fff;
+  font-size: 16px;
+  line-height: 30px;
+}
+
+#banner h3 {
+  color: #fff;
   font-size: 30px;
+  line-height: 54px;
   padding: 10px 0;
 }
 
-#banner h2 span {
+#banner h3 span {
   color: #ef3636;
 }
 
@@ -784,7 +786,7 @@ body {
   background-color: #041e42;
 }
 
-#newsletter h4 {
+#newsletter h3 {
   color: #fff;
   font-size: 22px;
   font-weight: 700;
