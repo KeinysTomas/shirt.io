@@ -701,15 +701,17 @@ body {
   
 }
 
-#sm-banner h4 {
+#sm-banner h2 {
   color: #fff;
   font-size: 20px;
+  line-height: 18px;
   font-weight: 300;
 }
 
-#sm-banner h2 {
+#sm-banner h3 {
   color: #fff;
   font-size: 28px;
+  line-height: 54px;
   font-weight: 800;
 }
 
