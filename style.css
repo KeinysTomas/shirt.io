@@ -869,7 +869,8 @@ body {
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start; /* Changed from center to flex-start */
+  gap: 15px; /* Added gap between text and toggle */
 }
 .faq-toggle {
   width: 30px;
@@ -877,6 +878,8 @@ body {
   border: 1px solid #088178;
   border-radius: 50%;
   position: relative;
+  flex-shrink: 0; /* Added to prevent the toggle from shrinking */
+  margin-top: 2px; /* Optional: Adds a small offset from the top to align with text */
 }
 .faq-toggle::before,
 .faq-toggle::after {
