@@ -429,12 +429,16 @@ body {
   justify-content: center;
 }
 
-#hero h4 {
+#hero h1 {
+  font-size: 20px;
+  line-height: 18px;
   padding-bottom: 15px;
 }
 
-#hero h1 {
+#hero h3 {
   color: #088178;
+  font-size: 46px;
+  line-height: 64px;
 }
 
 #hero button {
