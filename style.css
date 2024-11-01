@@ -1081,12 +1081,10 @@ footer .copyright {
   padding: 30px 0 10px 0;
 }
 
-#proDetails .single-pro-details h4 {
-  padding: 40px 0 5px 0;
-}
-
 #proDetails .single-pro-details h2 {
-  font-size: 26px;
+  font-size: 20px;
+  line-height: 1.5;
+  padding: 40px 0 5px 0;
 }
 
 #proDetails .single-pro-details h6 {
