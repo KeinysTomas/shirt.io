@@ -42,8 +42,8 @@
 <body>
     
 
-    <section id="header">
-        <a href="#"><img src="img/logo.png" class="logo" alt=""></a>
+    <header id="header">
+        <a href="#"><img src="img/logo.png" class="logo" alt="Website Logo"></a>
 
 
 
@@ -61,136 +61,310 @@
           </button>
 
 
+          
 
 
+
+
+        
         <div>
-            <ul id="navbar">
-                <li><a href="index.html">Home</a></li>
-                <li><a class="active" href="shop.html">Shop</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li id="lg-bag"><a href="cart.html"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a></li>
-                <a href="#" id="close"><i class="fa fa-window-close-o" aria-hidden="true"></i></a>
-            </ul>
+            <nav>
+                <ul id="navbar">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a class="active" href="shop.html">Shop</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="lg-bag"><a href="cart.html" aria-label="Shopping Cart"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a></li>
+                    <a href="#" id="close" aria-label="Close Menu"><i class="fa fa-window-close-o" aria-hidden="true"></i></a>
+                </ul>
+            </nav>
         </div>
         <div id="mobile">
-            <a href="cart.html"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
-            <i id="bar" class="fa fa-bars" aria-hidden="true"></i>
+            <a href="cart.html" aria-label="Shopping Cart"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+            <i id="bar" class="fa fa-bars"></i>
         </div>
-    </section>
+    </header>
 
-
-    <section id="proDetails" class="section-p1">
-        <div class="single-pro-image">
-          <img src="img/products/f1-1.avif" width="100%" id="mainImg" alt="">
-          <div class="small-img-group">
-            <div class="small-img-col">
-              <img src="img/products/f2.jpg" width="100%" class="small-img" alt="">
+      <main>
+    
+        <section id="proDetails" class="section-p1">
+            <div class="single-pro-image">
+              <img src="img/products/f2.jpg" width="100%" id="mainImg" alt="Main product image">
+              <div class="small-img-group">
+                <div class="small-img-col">
+                  <img src="img/products/f2.jpg" width="100%" class="small-img" alt="Product image 2">
+                </div>
+                <div class="small-img-col">
+                  <img src="img/products/f3.jpg" width="100%" class="small-img" alt="Product image 3">
+                </div>
+                <div class="small-img-col">
+                  <img src="img/products/f4.jpg" width="100%" class="small-img" alt="Product image 4">
+                </div>
+                <div class="small-img-col">
+                  <img src="img/products/f5.jpg" width="100%" class="small-img" alt="Product image 5">
+                </div>
+              </div>
             </div>
-            <div class="small-img-col">
-              <img src="img/products/f3.jpg" width="100%" class="small-img" alt="">
-            </div>
-            <div class="small-img-col">
-              <img src="img/products/f4.jpg" width="100%" class="small-img" alt="">
-            </div>
-            <div class="small-img-col">
-              <img src="img/products/f5.jpg" width="100%" class="small-img" alt="">
-            </div>
-          </div>
-        </div>
-      
-        <div class="single-pro-details">
-            <div>
+          
+            <div class="single-pro-details">
                 <h6>Iqlecmaylos / Os Phqryaqefg</h6>
-                <h1>Ttaigtbtotj Wuekbirte - 90wi(500wo/wi)</h1>
-                <h2>£35.00</h2>
-            
+                <div class="heading-container">
+                    
+                    <h1>Ttaigtbtotj Wuekbirte - 90wi(500wo/wi)</h1>
+                    <div class="share-container">
+                      <i class="fa fa-share-square-o share-icon" aria-label="Share this page" aria-hidden="true"></i>
+                      <div class="share-modal">
+                        <a href="#" class="fa fa-facebook" aria-label="Share on Facebook"></a>
+                        <a href="#" class="fa fa-twitter" aria-label="Share on Twitter"></a>
+                        <a href="#" class="fa fa-linkedin" aria-label="Share on LinkedIn"></a>
+                        <a href="#" class="fa fa-pinterest" aria-label="Share on Pinterest"></a>
+                      </div>
+                    </div>
+                  </div>
+
+                  
+
+
+
+                  <div class="price-container">
+                    <div class="price-section">
+                        <span class="price"><span class="currency">£</span>49.00</span>
+                        <span class="rrp-text">RRP</span>
+                        <span class="old-price"><span class="currency">£</span>40</span>
+                        <span class="additional-text">(Save £5.00)</span>
+
+
+                        
+                    </div>
+                </div>
+  
+                 <!-- stars
+
+                  <h2>£35.00<i class="fa fa-star" aria-hidden="true" style="float: right; color: orange; font-size: 14px; bottom:0;"></i><i class="fa fa-star" aria-hidden="true" style="float: right; color: orange; font-size: 14px"></i><i class="fa fa-star" aria-hidden="true" style="float: right; color: orange; font-size: 14px"></i><i class="fa fa-star" aria-hidden="true" style="float: right; color: orange; font-size: 14px"></i><i class="fa fa-star" aria-hidden="true" style="float: right; color: orange; font-size: 14px"></i></h2>
+                 -->
                 <label for="quantityInput">Quantity:</label>
                 <input type="number" id="quantityInput" min="1" value="1">
             
                 <button id="addToCartBtn" class="normal">Add To Cart</button>
+              <h2>Qqiuh Os Phqryaqefg Ttaigtbtotj Wuekbirte</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
-            <h4>Product Details</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-      </section>
+          </section>
 
-
-    <section id="product1" class="section-p1">
+    
+      <section id="product1" class="section-p1">
         <h2>Featured Products</h2>
         <p>Summer Collection New Modern Design</p>
         <div class="pro-container">
             <div class="pro">
-                <img src="img/products/n1.jpg" alt="">
+                <img src="img/products/n1.jpg" alt="Adidas Cartoon T-Shirt">
                 <div class="des">
                     <span>adidas</span>
-                    <h5>Cartoon T-Shirts</h5>
+                    <h3>Cartoon T-Shirts</h3>
                     <div class="star">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
+                        <span class="sr-only">5 out of 5 stars</span>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
                     </div>
                     <h4>£78</h4>
                 </div>
-                <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
+                <a href="#" aria-label="Add Cartoon T-Shirt to cart"><i class="fa fa-shopping-cart cart" aria-hidden="true"></i></a>
             </div>
             <div class="pro">
-                <img src="img/products/n8.jpg" alt="">
+                <img src="img/products/n8.jpg" alt="Adidas Cartoon T-Shirt">
                 <div class="des">
                     <span>adidas</span>
-                    <h5>Cartoon T-Shirts</h5>
+                    <h3>Cartoon T-Shirts</h3>
                     <div class="star">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
+                        <span class="sr-only">5 out of 5 stars</span>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
                     </div>
                     <h4>£78</h4>
                 </div>
-                <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
+                <a href="#" aria-label="Add Cartoon T-Shirt to cart"><i class="fa fa-shopping-cart cart" aria-hidden="true"></i></a>
             </div>
             <div class="pro">
-                <img src="img/products/n2.jpg" alt="">
+                <img src="img/products/n2.jpg" alt="Adidas Cartoon T-Shirt">
                 <div class="des">
                     <span>adidas</span>
-                    <h5>Cartoon T-Shirts</h5>
+                    <h3>Cartoon T-Shirts</h3>
                     <div class="star">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
+                        <span class="sr-only">5 out of 5 stars</span>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
                     </div>
                     <h4>£78</h4>
                 </div>
-                <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
+                <a href="#" aria-label="Add Cartoon T-Shirt to cart"><i class="fa fa-shopping-cart cart" aria-hidden="true"></i></a>
             </div>
             <div class="pro">
-                <img src="img/products/n3.jpg" alt="">
+                <img src="img/products/n3.jpg" alt="Adidas Cartoon T-Shirt">
                 <div class="des">
                     <span>adidas</span>
-                    <h5>Cartoon T-Shirts</h5>
+                    <h3>Cartoon T-Shirts</h3>
                     <div class="star">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
+                        <span class="sr-only">5 out of 5 stars</span>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
                     </div>
                     <h4>£78</h4>
                 </div>
-                <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
+                <a href="#" aria-label="Add Cartoon T-Shirt to cart"><i class="fa fa-shopping-cart cart" aria-hidden="true"></i></a>
             </div>
-            
-            
-            
-            
         </div>
     </section>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    <!-- accesability done up to here. 
+     
+    
+    
+    reminder check product description abobe css it changed to <p> tag instead <span>  adjust css-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section id="FullProductDescription" class="section-p1">
+        <h2>Product Description</h2>
+    <div class="product-details-section-container">
+        <div class="left-column">
+            <div class="image-container">
+                <img src="img/products/f1.jpg" alt="Placeholder image">
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Good in combination with</th>
+                        <td>
+                            <ul>
+                                <li>Passage experienced</li>
+                                <li>Passage experienced</li>
+                                <li>Passage experienced</li>
+                                <li>Passage experienced</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Passage experienced</th>
+                        <td>Passage experienced passage experienced</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Passage experienced</th>
+                        <td>Passage experienced</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Passage experienced</th>
+                        <td>Passage experienced</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Good in combination with</th>
+                        <td>
+                            <ul>
+                                <li>Passage experienced</li>
+                                <li>Passage experienced</li>
+                                <li>Passage experienced</li>
+                                <li>Passage experienced</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="right-column">
+            <p>This is the right column with plain text. You can add your content here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id aliquam tincidunt, velit velit aliquam nunc, nec aliquet nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, velit velit aliquam nunc, nec aliquet nunc nunc id nunc. Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with:
+
+                “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”</p>
+                
+                <p>The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn't distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content.</p>
+                
+                <p>The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-transfer sheets, and again during the 90s as desktop publishers bundled the text with their software. Today it's seen all around the web; on templates, websites, and stock designs. Use our generator to get your own, or read on for the authoritative history of lorem ipsum.
+                You can add more paragraphs or other content as needed in this column. The left column contains an image at the top and two tables below it, all on a light grey background.</p>
+                
+                <p>The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn't distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content. </p>
+                
+                <p>The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn't distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content.</p>
+                
+                <p>The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-transfer sheets, and again during the 90s as desktop publishers bundled the text with their software. Today it's seen all around the web; on templates, websites, and stock designs. Use our generator to get your own, or read on for the authoritative history of lorem ipsum.
+                You can add more paragraphs or other content as needed in this column. The left column contains an image at the top and two tables below it, all on a light grey background.The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn't distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content. </p>
+                
+                <p>The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn't distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content.</p>
+                
+                <p>The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-transfer sheets, and again during the 90s as desktop publishers bundled the text with their software. Today it's seen all around the web; on templates, websites, and stock designs. Use our generator to get your own, or read on for the authoritative history of lorem ipsum.
+                You can add more paragraphs or other content as needed in this column. The left column contains an image at the top and two tables below it, all on a light grey background.</p>
+        </div>
+    </div>
+    </section>
+
+
+
+
+    <section id="disclaimer" class="section-p1">
+        <div class="icon-area">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: #fff;"></i>
+        </div>
+        <div class="disclaimer-text">
+            <h3>Who We Are?</h3>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
 
 
     <section id="newsletter" class="section-p1 section-m1">
@@ -198,32 +372,40 @@
             <h4>Sign up for Newsletters</h4>
             <p>Get email updates about our latest shop and <span>latest offers</span></p>
         </div>
-        <div class="form">
-            <input type="text" placeholder="Your email addres">
-            <button class="normal">Sign Up</button>
-        </div>
+        <form class="form">
+            <label for="email" class="sr-only">Your email address</label>
+            <input type="email" id="email" name="email" placeholder="Your email address" required>
+            <button type="submit" class="normal">Sign Up</button>
+        </form>
     </section>
+
+
+
+
+    </main>
+
+
 
 
     <footer class="section-p1">
         <div class="col">
-            <img class="logo" src="img/logo.png" alt="">
+            <img class="logo" src="img/logo.png" alt="Company logo">
             <h4>Contact</h4>
-            <p><strong>Adress: </strong>321 High street, London</p>
-            <p><strong>Telephone: </strong>+44 58308431157</p>
+            <p><strong>Address: </strong>321 High street, London</p>
+            <p><strong>Telephone: </strong><a href="tel:+44 58308431157">+44 58308431157</a></p>
             <p><strong>Hours: </strong>10.00 - 19.00 mon - sat</p>
             <div class="follow">
                 <h4>Follow us</h4>
                 <div class="icon">
-                    <i class="fa fa-facebook-square" aria-hidden="true"></i>
-                    <i class="fa fa-twitter-square" aria-hidden="true"></i>
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                    <i class="fa fa-pinterest-square" aria-hidden="true"></i>
-                    <i class="fa fa-google-plus-square" aria-hidden="true"></i>
+                    <a href="#" aria-label="Facebook"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fa fa-pinterest-square" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="Google Plus"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
-
+    
         <div class="col">
             <h4>About</h4>        
             <a href="#">About Us</a>
@@ -232,7 +414,7 @@
             <a href="#">Terms & Conditions</a>
             <a href="#">Contact Us</a>
         </div>
-
+    
         <div class="col">
             <h4>My Account</h4>        
             <a href="#">Sign In</a>
@@ -241,21 +423,20 @@
             <a href="#">Track My Order</a>
             <a href="#">Help</a>
         </div>
-
+    
         <div class="col install">
             <h4>Install App</h4>
-            <p>Fram App Store or Google Play</p>
+            <p>From App Store or Google Play</p>
             <div class="row">
-                <img src="img/pay/app.jpg" alt="">
-                <img src="img/pay/play.jpg" alt="">
+                <img src="img/pay/app.jpg" alt="Download on App Store">
+                <img src="img/pay/play.jpg" alt="Get it on Google Play">
             </div>
-            <p>Secure Payment Getaways</p>
-            <img src="img/pay/pay.png" alt="">
+            <p>Secure Payment Gateways</p>
+            <img src="img/pay/pay.png" alt="Accepted payment methods">
         </div>
-        <!-- recopy © symbol later-->
+    
         <div class="copyright">
-            
-            <p>© 2024 Copyright Ecommerce store</p>
+            <p>&copy; 2024 Copyright Ecommerce store</p>
         </div>
     </footer>
 
