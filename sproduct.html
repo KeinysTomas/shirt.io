@@ -443,23 +443,15 @@
 
 
     <div class="cart-notification" id="cartNotification">
-        <div class="cart-notification-header">Added to Cart</div>
-        <div class="cart-item-preview">
-          <img class="cart-item-image" id="previewImage" src="" alt="Product">
-          <div class="cart-item-details">
-            <div class="cart-item-name" id="previewName"></div>
-            <div class="cart-item-price">
-              Quantity: <span id="previewQuantity"></span>
-              <br>
-              Price: £<span id="previewPrice"></span>
-            </div>
-          </div>
+        <div class="cart-notification-header">Cart Preview</div>
+        <div class="cart-items-container" id="cartItemsContainer">
+          <!-- Cart items will be dynamically inserted here -->
         </div>
         <div class="cart-subtotal">
-          <span>Subtotal:</span>
-          <span>£<span id="previewSubtotal"></span></span>
+          <span>Total:</span>
+          <span>£<span id="cartTotal">0.00</span></span>
         </div>
-        <a href="/cart" class="checkout-btn">View Cart</a>
+        <a href="cart.html" aria-label="Shopping Cart" class="checkout-btn">View Cart</a>
       </div>
 
 
@@ -495,17 +487,43 @@
         const addToCartBtn = document.querySelector('#addToCartBtn');
 const quantityInput = document.querySelector('#quantityInput');
 const imageSrc = document.querySelector('#mainImg').src;
-const price = 35.0; // Change this to the actual price
+const price = 35.0; // Your product price
+const productId = 'tshirt'; // Your product ID
+const productName = 'Mens Fashion T-Shirt'; // Your product name
 
-function showNotification(item) {
-  const notification = document.getElementById('cartNotification');
-  document.getElementById('previewImage').src = item.image;
-  document.getElementById('previewName').textContent = item.name;
-  document.getElementById('previewQuantity').textContent = item.quantity;
-  document.getElementById('previewPrice').textContent = item.price.toFixed(2);
-  document.getElementById('previewSubtotal').textContent = item.subtotal.toFixed(2);
+function updateCartNotification() {
+  const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
+  const container = document.getElementById('cartItemsContainer');
+  container.innerHTML = ''; // Clear existing items
   
+  let total = 0;
+  
+  cartData.forEach(item => {
+    const itemElement = document.createElement('div');
+    itemElement.className = 'cart-item-preview';
+    itemElement.innerHTML = `
+      <img class="cart-item-image" src="${item.image}" alt="${item.name}">
+      <div class="cart-item-details">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">
+          Quantity: ${item.quantity}<br>
+          Price: £${item.price.toFixed(2)}
+        </div>
+      </div>
+    `;
+    container.appendChild(itemElement);
+    total += item.subtotal;
+  });
+
+  document.getElementById('cartTotal').textContent = total.toFixed(2);
+}
+
+function showNotification() {
+  const notification = document.getElementById('cartNotification');
   notification.classList.add('show');
+  
+  // Update the cart preview
+  updateCartNotification();
   
   // Hide notification after 5 seconds
   setTimeout(() => {
@@ -518,38 +536,31 @@ addToCartBtn.addEventListener('click', function() {
   const subtotal = quantity * price;
 
   const cartItem = {
-    name: 'Mens Fashion T-Shirt',
+    id: productId,
+    name: productName,
     price: price,
     quantity: quantity,
     subtotal: subtotal,
     image: imageSrc
   };
 
-  // Get the cart data from local storage
   let cartData = localStorage.getItem('cartData');
   cartData = cartData ? JSON.parse(cartData) : [];
 
-  // Check if the item already exists in the cart
-  const existingItemIndex = cartData.findIndex(item => item.name === cartItem.name);
+  const existingItemIndex = cartData.findIndex(item => item.id === cartItem.id);
   if (existingItemIndex !== -1) {
-    // Item already exists, update its quantity and subtotal
     cartData[existingItemIndex].quantity = parseInt(cartData[existingItemIndex].quantity) + quantity;
     cartData[existingItemIndex].subtotal = cartData[existingItemIndex].price * cartData[existingItemIndex].quantity;
     cartItem.quantity = cartData[existingItemIndex].quantity;
     cartItem.subtotal = cartData[existingItemIndex].subtotal;
   } else {
-    // Item doesn't exist, add it to the cart data
     cartData.push(cartItem);
   }
 
-  // Update the cart data in local storage
   localStorage.setItem('cartData', JSON.stringify(cartData));
-
-  // Reset the quantity input
   quantityInput.value = 1;
-
-  // Show the custom notification instead of alert
-  showNotification(cartItem);
+  
+  showNotification();
 });
 
 
