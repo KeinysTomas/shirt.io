@@ -463,46 +463,85 @@
 
 
         const addToCartBtn = document.querySelector('#addToCartBtn');
-  const quantityInput = document.querySelector('#quantityInput');
-  const imageSrc = document.querySelector('#mainImg').src;
-  const price = 35.0; // Change this to the actual price
+const quantityInput = document.querySelector('#quantityInput');
+const imageSrc = document.querySelector('#mainImg').src;
+const price = 35.0; // Change this to the actual price
 
-  addToCartBtn.addEventListener('click', function() {
-    const quantity = parseInt(quantityInput.value);
-    const subtotal = quantity * price;
+function showNotification(item) {
+  const notification = document.getElementById('cartNotification');
+  document.getElementById('previewImage').src = item.image;
+  document.getElementById('previewName').textContent = item.name;
+  document.getElementById('previewQuantity').textContent = item.quantity;
+  document.getElementById('previewPrice').textContent = item.price.toFixed(2);
+  document.getElementById('previewSubtotal').textContent = item.subtotal.toFixed(2);
+  
+  notification.classList.add('show');
+  
+  // Hide notification after 5 seconds
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 5000);
+}
 
-    const cartItem = {
-      name: 'Mens Fashion T-Shirt',
-      price: price,
-      quantity: quantity,
-      subtotal: subtotal,
-      image: imageSrc // Pass the image source to the cart item
-    };
+addToCartBtn.addEventListener('click', function() {
+  const quantity = parseInt(quantityInput.value);
+  const subtotal = quantity * price;
 
-    // Get the cart data from local storage
-    let cartData = localStorage.getItem('cartData');
-    cartData = cartData ? JSON.parse(cartData) : [];
+  const cartItem = {
+    name: 'Mens Fashion T-Shirt',
+    price: price,
+    quantity: quantity,
+    subtotal: subtotal,
+    image: imageSrc
+  };
 
-    // Check if the item already exists in the cart
-    const existingItemIndex = cartData.findIndex(item => item.name === cartItem.name);
-    if (existingItemIndex !== -1) {
-      // Item already exists, update its quantity and subtotal
-      cartData[existingItemIndex].quantity = parseInt(cartData[existingItemIndex].quantity) + quantity;
-      cartData[existingItemIndex].subtotal = cartData[existingItemIndex].price * cartData[existingItemIndex].quantity;
-    } else {
-      // Item doesn't exist, add it to the cart data
-      cartData.push(cartItem);
-    }
+  // Get the cart data from local storage
+  let cartData = localStorage.getItem('cartData');
+  cartData = cartData ? JSON.parse(cartData) : [];
 
-    // Update the cart data in local storage
-    localStorage.setItem('cartData', JSON.stringify(cartData));
+  // Check if the item already exists in the cart
+  const existingItemIndex = cartData.findIndex(item => item.name === cartItem.name);
+  if (existingItemIndex !== -1) {
+    // Item already exists, update its quantity and subtotal
+    cartData[existingItemIndex].quantity = parseInt(cartData[existingItemIndex].quantity) + quantity;
+    cartData[existingItemIndex].subtotal = cartData[existingItemIndex].price * cartData[existingItemIndex].quantity;
+    cartItem.quantity = cartData[existingItemIndex].quantity;
+    cartItem.subtotal = cartData[existingItemIndex].subtotal;
+  } else {
+    // Item doesn't exist, add it to the cart data
+    cartData.push(cartItem);
+  }
 
-    // Reset the quantity input
-    quantityInput.value = 1;
+  // Update the cart data in local storage
+  localStorage.setItem('cartData', JSON.stringify(cartData));
 
-    // Notify the user that the item has been added to the cart
-    alert('Item added to cart!');
-  });
+  // Reset the quantity input
+  quantityInput.value = 1;
+
+  // Show the custom notification instead of alert
+  showNotification(cartItem);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
