@@ -440,6 +440,20 @@
         </div>
     </footer>
 
+
+
+    <div class="cart-notification" id="cartNotification">
+        <div class="cart-notification-header">Cart Preview</div>
+        <div class="cart-items-container" id="cartItemsContainer">
+          <!-- Cart items will be dynamically inserted here -->
+        </div>
+        <div class="cart-subtotal">
+          <span>Total:</span>
+          <span>£<span id="cartTotal">0.00</span></span>
+        </div>
+        <a href="cart.html" aria-label="Shopping Cart" class="checkout-btn">View Cart</a>
+      </div>
+
     
 
     <script>
@@ -463,46 +477,83 @@
 
 
         const addToCartBtn = document.querySelector('#addToCartBtn');
-  const quantityInput = document.querySelector('#quantityInput');
-  const imageSrc = document.querySelector('#mainImg').src;
-  const price = 49.0; // Change this to the actual price
+const quantityInput = document.querySelector('#quantityInput');
+const imageSrc = document.querySelector('#mainImg').src;
+const price = 49.0; // Your product price
+const productId = 'tshirt1111'; // Your product ID
+const productName = 'Mens Fashion T-Shirt1111'; // Your product name
 
-  addToCartBtn.addEventListener('click', function() {
-    const quantity = parseInt(quantityInput.value);
-    const subtotal = quantity * price;
-
-    const cartItem = {
-      name: 'Mens T-Shirt',
-      price: price,
-      quantity: quantity,
-      subtotal: subtotal,
-      image: imageSrc // Pass the image source to the cart item
-    };
-
-    // Get the cart data from local storage
-    let cartData = localStorage.getItem('cartData');
-    cartData = cartData ? JSON.parse(cartData) : [];
-
-    // Check if the item already exists in the cart
-    const existingItemIndex = cartData.findIndex(item => item.name === cartItem.name);
-    if (existingItemIndex !== -1) {
-      // Item already exists, update its quantity and subtotal
-      cartData[existingItemIndex].quantity = parseInt(cartData[existingItemIndex].quantity) + quantity;
-      cartData[existingItemIndex].subtotal = cartData[existingItemIndex].price * cartData[existingItemIndex].quantity;
-    } else {
-      // Item doesn't exist, add it to the cart data
-      cartData.push(cartItem);
-    }
-
-    // Update the cart data in local storage
-    localStorage.setItem('cartData', JSON.stringify(cartData));
-
-    // Reset the quantity input
-    quantityInput.value = 1;
-
-    // Notify the user that the item has been added to the cart
-    alert('Item added to cart!');
+function updateCartNotification() {
+  const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
+  const container = document.getElementById('cartItemsContainer');
+  container.innerHTML = ''; // Clear existing items
+  
+  let total = 0;
+  
+  cartData.forEach(item => {
+    const itemElement = document.createElement('div');
+    itemElement.className = 'cart-item-preview';
+    itemElement.innerHTML = `
+      <img class="cart-item-image" src="${item.image}" alt="${item.name}">
+      <div class="cart-item-details">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">
+          Quantity: ${item.quantity}<br>
+          Price: £${item.price.toFixed(2)}
+        </div>
+      </div>
+    `;
+    container.appendChild(itemElement);
+    total += item.subtotal;
   });
+
+  document.getElementById('cartTotal').textContent = total.toFixed(2);
+}
+
+function showNotification() {
+  const notification = document.getElementById('cartNotification');
+  notification.classList.add('show');
+  
+  // Update the cart preview
+  updateCartNotification();
+  
+  // Hide notification after 5 seconds
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 5000);
+}
+
+addToCartBtn.addEventListener('click', function() {
+  const quantity = parseInt(quantityInput.value);
+  const subtotal = quantity * price;
+
+  const cartItem = {
+    id: productId,
+    name: productName,
+    price: price,
+    quantity: quantity,
+    subtotal: subtotal,
+    image: imageSrc
+  };
+
+  let cartData = localStorage.getItem('cartData');
+  cartData = cartData ? JSON.parse(cartData) : [];
+
+  const existingItemIndex = cartData.findIndex(item => item.id === cartItem.id);
+  if (existingItemIndex !== -1) {
+    cartData[existingItemIndex].quantity = parseInt(cartData[existingItemIndex].quantity) + quantity;
+    cartData[existingItemIndex].subtotal = cartData[existingItemIndex].price * cartData[existingItemIndex].quantity;
+    cartItem.quantity = cartData[existingItemIndex].quantity;
+    cartItem.subtotal = cartData[existingItemIndex].subtotal;
+  } else {
+    cartData.push(cartItem);
+  }
+
+  localStorage.setItem('cartData', JSON.stringify(cartData));
+  quantityInput.value = 1;
+  
+  showNotification();
+});
     </script>
 
 
