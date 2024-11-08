@@ -426,6 +426,8 @@ body {
   top: 20px;
   right: -400px;
   width: 350px;
+  max-height: 80vh;
+  overflow-y: auto;
   background: white;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border-radius: 8px;
@@ -445,10 +447,17 @@ body {
   font-weight: bold;
 }
 
+.cart-items-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
 .cart-item-preview {
   display: flex;
   align-items: center;
   gap: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 
 .cart-item-image {
@@ -477,6 +486,7 @@ body {
   border-top: 1px solid #eee;
   display: flex;
   justify-content: space-between;
+  font-weight: bold;
 }
 
 .checkout-btn {
