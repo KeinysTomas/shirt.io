@@ -166,6 +166,7 @@ body {
   position: absolute;
   bottom: -4px;
   left: 20px;
+  transform: translateX(0); /* Add this to prevent any potential shifting */
 }
 
 #mobile {
@@ -419,7 +420,71 @@ body {
 
 
 
-/* cart notification */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .cart-notification {
   position: fixed;
@@ -500,6 +565,7 @@ body {
   margin-top: 15px;
   text-decoration: none;
 }
+
 
 
 
@@ -990,6 +1056,7 @@ body {
   align-items: flex-start; /* Changed from center to flex-start */
   gap: 15px; /* Added gap between text and toggle */
 }
+
 .faq-toggle {
   width: 30px;
   height: 30px;
@@ -1234,12 +1301,13 @@ footer .copyright {
   line-height: 1.6;
 }
 
-h6::before {
-  content: "\f288"; /* Unicode for fa-product-hunt in FA 4.7.0 */
+#proDetails .single-pro-details h6::before {
+  content: "\f288";
   font-family: "FontAwesome";
   padding-right: 10px;
   font-size: 18px;
   color: green;
+  display: inline-block; /* Add this to ensure the icon displays */
 }
 
 
@@ -1951,6 +2019,86 @@ td ul {
 
 
 
+.purchase-notification {
+  position: fixed;
+  top: -100%;  /* Start above the viewport */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 66vw;  /* 2/3 of viewport width */
+  height: 40vh; /* 40% of viewport height */
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  border-radius: 12px;
+  padding: 30px;
+  transition: top 0.5s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.purchase-notification.show {
+  top: 20px;  /* Slides down to 20px from the top */
+}
+
+.purchase-notification-header {
+  font-size: 24px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.purchase-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0;
+  flex-grow: 1;
+}
+
+.success-icon {
+  background: #4CAF50;
+  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.success-icon i {
+  font-size: 36px;  /* Size of the Font Awesome icon */
+}
+
+
+.message-text {
+  flex-grow: 1;
+  line-height: 1.6;
+  font-size: 18px;
+  color: #444;
+  white-space: pre-line;  /* Preserves line breaks in the message */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1993,6 +2141,150 @@ td ul {
   background: #fff;
   box-shadow: 0 5px 10px rgba(0,0,0,.1);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.order-summary {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.order-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.item-details {
+  flex-grow: 1;
+}
+
+.item-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.item-quantity {
+  color: #666;
+}
+
+.total-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid #ddd;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .container form .row{
   display: flex;
@@ -2070,6 +2362,20 @@ td ul {
 
 
 
+
+
+.error {
+  color: red;
+  font-size: 0.8em;
+  display: none;
+  margin-top: 5px;
+  padding-left: 5px;
+}
+.order-summary {
+  background: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 20px;
+}
 
 
 
@@ -2334,6 +2640,76 @@ td ul {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+/* pgetawaySubmission */
+
+
+.purchase-notification {
+  width: 96vw;
+  height: auto;
+  min-height: 200px;
+  padding: 20px;
+}
+
+.purchase-notification-header {
+  font-size: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.purchase-message {
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+
+.message-text {
+  font-size: 16px;
+  width: 100%;
+  padding: 0 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* @media (max-width:799px) end */
 
 /* @media (max-width:477px) start */
@@ -2358,13 +2734,11 @@ td ul {
 
 
   h2 {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 32px;
   }
 
   h1 {
-    font-size: 26px;
-    line-height: 30px;
+    font-size: 38px;
   }
 
   #hero {
@@ -2417,12 +2791,6 @@ td ul {
     text-align: start;
   }
 
-  /* shop */
-
-  #product1 .pro-container {
-    padding-top: 5px;
-  }
-
   /* single product */
 
   #proDetails {
@@ -2437,10 +2805,6 @@ td ul {
 
   #proDetails .single-pro-details {
     width: 100%;
-  }
-
-  .right-column {
-    padding: 0px;
   }
 
   /* blog */
@@ -2463,14 +2827,6 @@ td ul {
 
   #blog .blog-details {
     width: 100%;
-  }
-
-  #blog .blog-box h3 {
-    font-size: 50px;
-  }
-
-  #blog .blog-details h2 {
-    font-size: 18px;
   }
 
   /* about page */
@@ -2517,12 +2873,6 @@ td ul {
     width: 100%;
     margin-bottom: 30px;
   }
-
-  #contact-details .details h3, #form-details form h3 {
-    font-size: 20px;
-    line-height: 24px;
-    padding: 5px 0 20px 0;
-}
 
   /* cart page */
 
