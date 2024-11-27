@@ -64,6 +64,7 @@
             <ul id="navbar">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="shop.html">Shop</a></li>
+                
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -76,8 +77,9 @@
             <i id="bar" class="fa fa-bars" aria-hidden="true"></i>
         </div>
     </section>
-    
-<main>
+
+
+
     <section id="page-header" class="about-header">
         
         <h2>#Lets Talk</h2>
@@ -194,10 +196,9 @@
                   <td><strong id="cartTotal">£ 0.00</strong></td>
               </tr>
           </table>
-          <button class="normal" onclick="location.href='pgetaway.html'">Proceed to checkout</button>
+          <button class="normal" onclick="proceedToCheckout()">Proceed to checkout</button>
       </div>
     </section>
-</main>
 
 
 
@@ -254,7 +255,6 @@
             <p>© 2024 Copyright Ecommerce store</p>
         </div>
     </footer>
-    
 
 
 
@@ -323,6 +323,14 @@ function updateCartDisplay() {
 
 // Initial population of the table and totals
 updateCartDisplay();
+
+function proceedToCheckout() {
+    const total = document.getElementById('cartTotal').textContent;
+    const cartItems = JSON.stringify(cartData);
+    localStorage.setItem('checkoutTotal', total);
+    localStorage.setItem('checkoutItems', cartItems);
+    window.location.href = 'pgetaway.html';
+}
     </script>
 
     
