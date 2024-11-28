@@ -169,6 +169,12 @@
         <button onclick="showTab('orders')">Orders</button>
     </div>
 
+
+
+
+    <button onclick="clearOrders()">Clear All Orders</button>
+
+
     <div id="overview" class="tab-content active">
         <div class="dashboard-grid">
             <div class="dashboard-card">
@@ -491,6 +497,12 @@
             updateDashboard();
             displayOrders();
         });
+
+        function clearOrders() {
+    localStorage.removeItem('orders');
+    alert('All orders have been cleared.');
+    location.reload(); // Reload the page to reflect the changes
+}
     </script>
 </body>
 </html>
