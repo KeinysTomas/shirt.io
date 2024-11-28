@@ -177,7 +177,7 @@
             </div>
             <div class="dashboard-card">
                 <h3>New Orders</h3>
-                <p id="completedOrders">Loading...</p>
+                <p id="newOrders">Loading...</p>
             </div>
         </div>
     </div>
@@ -258,7 +258,6 @@
                 orders[orderIndex].statusUpdateDate = new Date().toISOString();
                 localStorage.setItem('orders', JSON.stringify(orders));
     
-                // If status is changed to "shipped" and no tracking number exists, prompt for it
                 if (newStatus === 'shipped' && !orders[orderIndex].trackingNumber) {
                     updateTrackingInfo(orderId);
                 }
@@ -269,110 +268,101 @@
         }
     
         function updateTrackingInfo(orderId) {
-    const trackingNumber = prompt("Enter tracking number:");
-    if (trackingNumber) {
-        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        const orderIndex = orders.findIndex(order => order.orderId === orderId);
-        
-        if (orderIndex !== -1) {
-            const order = orders[orderIndex];
-            order.trackingNumber = trackingNumber;
-            localStorage.setItem('orders', JSON.stringify(orders));
+            const trackingNumber = prompt("Enter tracking number:");
+            if (trackingNumber) {
+                let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                const orderIndex = orders.findIndex(order => order.orderId === orderId);
+                
+                if (orderIndex !== -1) {
+                    const order = orders[orderIndex];
+                    order.trackingNumber = trackingNumber;
+                    localStorage.setItem('orders', JSON.stringify(orders));
 
+                    const orderItemsHTML = `
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr style="background-color: #f5f5f5;">
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Item</th>
+                                <th style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">Quantity</th>
+                                <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Price</th>
+                            </tr>
+                            ${order.orderItems.map(item => `
+                                <tr>
+                                    <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${item.name}</td>
+                                    <td style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">${item.quantity}</td>
+                                    <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">£${item.price}</td>
+                                </tr>
+                            `).join('')}
+                            <tr>
+                                <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Shipping Cost:</td>
+                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">£${order.shippingCost || '2.99'}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Total:</td>
+                                <td style="padding: 10px; text-align: right; font-weight: bold;">${order.totalAmount}</td>
+                            </tr>
+                        </table>
+                    `;
 
+                    const templateParams = {
+                        to_email: order.customerDetails.email,
+                        to_name: order.customerDetails.fullName,
+                        order_id: order.orderId,
+                        tracking_number: trackingNumber,
+                        order_date: new Date(order.timestamp).toLocaleDateString(),
+                        total_amount: order.totalAmount,
+                        shipping_name: order.customerDetails.fullName,
+                        shipping_address: order.customerDetails.address,
+                        shipping_city: order.customerDetails.city,
+                        shipping_postcode: order.customerDetails.postCode,
+                        order_items: orderItemsHTML
+                    };
 
-
-            // Format order items HTML
-            const orderItemsHTML = `
-    <table style="width: 100%; border-collapse: collapse;">
-        <tr style="background-color: #f5f5f5;">
-            <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Item</th>
-            <th style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">Quantity</th>
-            <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Price</th>
-        </tr>
-        ${order.orderItems.map(item => `
-            <tr>
-                <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${item.name}</td>
-                <td style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">${item.quantity}</td>
-                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">£${item.price}</td>
-            </tr>
-        `).join('')}
-        <tr>
-            <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Shipping Cost:</td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">£${order.shippingCost || '2.99'}</td>
-        </tr>
-        <tr>
-            <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Total:</td>
-            <td style="padding: 10px; text-align: right; font-weight: bold;">${order.totalAmount}</td>
-        </tr>
-    </table>
-`;
-
-
-
-
-            // Send shipping notification email
-            const templateParams = {
-                to_email: order.customerDetails.email,
-                to_name: order.customerDetails.fullName,
-                order_id: order.orderId,
-                tracking_number: trackingNumber,
-                order_date: new Date(order.timestamp).toLocaleDateString(),
-                total_amount: order.totalAmount,
-                shipping_name: order.customerDetails.fullName,
-                shipping_address: order.customerDetails.address,
-                shipping_city: order.customerDetails.city,
-                shipping_postcode: order.customerDetails.postCode,
-                order_items: orderItemsHTML
-            };
-
-            emailjs.send('service_gp9s5ii', 'template_xktx2kv', templateParams)
-                .then(function(response) {
-                    console.log('Shipping notification sent:', response);
-                    alert('Tracking number added and notification email sent!');
-                    displayOrders();
-                })
-                .catch(function(error) {
-                    console.error('Failed to send shipping notification:', error);
-                    alert('Tracking number added but failed to send notification email.');
-                });
+                    emailjs.send('service_gp9s5ii', 'template_xktx2kv', templateParams)
+                        .then(function(response) {
+                            console.log('Shipping notification sent:', response);
+                            alert('Tracking number added and notification email sent!');
+                            displayOrders();
+                        })
+                        .catch(function(error) {
+                            console.error('Failed to send shipping notification:', error);
+                            alert('Tracking number added but failed to send notification email.');
+                        });
+                }
+            }
         }
-    }
-}
     
         function updateDashboard() {
             const orders = JSON.parse(localStorage.getItem('orders') || '[]');
             const activeOrders = orders.filter(order => order.status !== 'completed').length;
             document.getElementById('activeOrders').textContent = activeOrders;
-            const completedOrders = orders.filter(order => order.status === 'completed').length;
-            document.getElementById('completedOrders').textContent = completedOrders;
+            const newOrders = orders.filter(order => order.status === 'new').length;
+            document.getElementById('newOrders').textContent = newOrders;
         }
     
         function downloadOrderDetails(order) {
             const orderText = `
-    Order Details
-    ------------
-    Order ID: ${order.orderId}
-    Status: ${order.status || 'new'}
-    Date: ${new Date(order.timestamp).toLocaleString()}
-    Total: ${order.totalAmount}
-    Email: ${order.customerDetails.email}
-    
-    // Modify the shipping address section to:
-    Shipping Address
-    ---------------
-    ${order.customerDetails.fullName}
-    ${order.customerDetails.address}
-    ${order.customerDetails.city}
-    ${order.customerDetails.postCode}
-    
-    ${order.trackingNumber ? `Tracking Number: ${order.trackingNumber}\n` : ''}
-    
-    Order Items
-    -----------
-    ${order.orderItems.map(item => `${item.name} - Quantity: ${item.quantity} - Price: ${item.price}`).join('\n')}
-    `;
-    
+                Order Details
+                ------------
+                Order ID: ${order.orderId}
+                Status: ${order.status || 'new'}
+                Date: ${new Date(order.timestamp).toLocaleString()}
+                Total: ${order.totalAmount}
+                Email: ${order.customerDetails.email}
+                
+                Shipping Address
+                ---------------
+                ${order.customerDetails.fullName}
+                ${order.customerDetails.address}
+                ${order.customerDetails.city}
+                ${order.customerDetails.postCode}
+                
+                ${order.trackingNumber ? `Tracking Number: ${order.trackingNumber}\n` : ''}
+                
+                Order Items
+                -----------
+                ${order.orderItems.map(item => `${item.name} - Quantity: ${item.quantity} - Price: ${item.price}`).join('\n')}
+            `;
+        
             const blob = new Blob([orderText], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
