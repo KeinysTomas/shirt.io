@@ -288,14 +288,14 @@ function processCheckout(event) {
     }
 
     if (isValid) {
-        try {
-            const order = OrderStorage.saveOrder(formData);
-            simulatePaymentProcessing(order);
-        } catch (error) {
-            console.error('Error saving order:', error);
-            showPurchaseNotification('There was an error processing your order. Please try again.');
-        }
+    try {
+      const order = OrderStorage.saveOrder(formData);
+      simulatePaymentProcessing(order);
+    } catch (error) {
+      console.error('Error saving order:', error);
+      showPurchaseNotification('There was an error processing your order. Please try again.');
     }
+  }
 }
 
 function simulatePaymentProcessing(order) {
