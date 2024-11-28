@@ -204,7 +204,16 @@ function sendOrderConfirmationEmail(order) {
     `)
     .join('');
 
-  // ... (rest of the function remains the same) ...
+  const orderItemsTable = `
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+      <tr>
+        <th style="padding: 10px; background-color: #f2f2f2; border: 1px solid #ddd;">Product</th>
+        <th style="padding: 10px; background-color: #f2f2f2; border: 1px solid #ddd;">Quantity</th>
+        <th style="padding: 10px; background-color: #f2f2f2; border: 1px solid #ddd;">Price</th>
+      </tr>
+      ${orderItemsHTML}
+    </table>
+  `;
 
   const templateParams = {
     to_email: order.customerDetails.email,
