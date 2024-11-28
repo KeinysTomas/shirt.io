@@ -192,44 +192,52 @@ function showPurchaseNotification(message) {
 }
 
 function sendOrderConfirmationEmail(order) {
-  const checkoutItems = order.items;
-  
-  const orderItemsHTML = checkoutItems
-    .map(item => `
-      <tr>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">${item.name}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">${item.quantity}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">£${item.price.toFixed(2)}</td>
-      </tr>
-    `)
-    .join('');
+    const checkoutItems = JSON.parse(localStorage.getItem('checkoutItems') || '[]');
+    
+    const orderItemsHTML = checkoutItems
+        .map(item => `
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">${item.name}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">${item.quantity}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">£${item.subtotal.toFixed(2)}</td>
+            </tr>
+        `)
+        .join('');
 
-  const orderItemsTable = `
-    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-      <tr>
-        <th style="padding: 10px; background-color: #f2f2f2; border: 1px solid #ddd;">Product</th>
-        <th style="padding: 10px; background-color: #f2f2f2; border: 1px solid #ddd;">Quantity</th>
-        <th style="padding: 10px; background-color: #f2f2f2; border: 1px solid #ddd;">Price</th>
-      </tr>
-      ${orderItemsHTML}
-    </table>
-  `;
+    const orderItemsTable = `
+        <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+            <tr style="background-color: #f8f9fa;">
+                <th style="padding: 12px; border: 1px solid #ddd; text-align: center;">Product Name</th>
+                <th style="padding: 12px; border: 1px solid #ddd; text-align: center;">Quantity</th>
+                <th style="padding: 12px; border: 1px solid #ddd; text-align: center;">Price</th>
+            </tr>
+            ${orderItemsHTML}
+            <tr>
+                <td colspan="2" style="padding: 10px; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; border-right: 1px solid #ddd; text-align: right;"><strong>Shipping Cost:</strong></td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">£2.99</td>
+            </tr>
+        </table>
+    `;
 
-  const templateParams = {
-    to_email: order.customerDetails.email,
-    to_name: order.customerDetails.fullName,
-    order_id: order.orderId,
-    order_date: new Date(order.date).toLocaleString(),
-    shipping_cost: '£2.99',
-    total_amount: order.totalAmount,
-    order_items: orderItemsTable,
-    address: order.customerDetails.address,
-    city: order.customerDetails.city,
-    post_code: order.customerDetails.postCode,
-    status: 'Order Confirmed'
-  };
+    const totalAmount = typeof order.totalAmount === 'string' 
+        ? parseFloat(order.totalAmount.replace('£', '')) 
+        : order.totalAmount;
 
-  return emailjs.send('service_gp9s5ii', 'template_w1h1bn7', templateParams);
+    const templateParams = {
+        to_email: order.customerDetails.email,
+        to_name: order.customerDetails.fullName,
+        order_id: order.orderId,
+        order_date: new Date().toLocaleString(),
+        shipping_cost: '£2.99',
+        total_amount: `£${totalAmount.toFixed(2)}`,
+        order_items: orderItemsTable,
+        address: order.customerDetails.address,
+        city: order.customerDetails.city,
+        post_code: order.customerDetails.postCode,
+        status: 'Order Confirmed'
+    };
+
+    return emailjs.send('service_gp9s5ii', 'template_w1h1bn7', templateParams);
 }
 
 function processCheckout(event) {
@@ -280,14 +288,14 @@ function processCheckout(event) {
     }
 
     if (isValid) {
-    try {
-      const order = OrderStorage.saveOrder(formData);
-      simulatePaymentProcessing(order);
-    } catch (error) {
-      console.error('Error saving order:', error);
-      showPurchaseNotification('There was an error processing your order. Please try again.');
+        try {
+            const order = OrderStorage.saveOrder(formData);
+            simulatePaymentProcessing(order);
+        } catch (error) {
+            console.error('Error saving order:', error);
+            showPurchaseNotification('There was an error processing your order. Please try again.');
+        }
     }
-  }
 }
 
 function simulatePaymentProcessing(order) {
