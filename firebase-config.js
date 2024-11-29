@@ -22,3 +22,9 @@ const analytics = getAnalytics(app);
 
 console.log('Firebase App:', app);
 console.log('Firebase Analytics:', analytics);
+
+// Add this code
+getAnalytics(app).logEvent('page_view', {
+    page_title: 'Home Page',
+    page_location: window.location.href
+  });
