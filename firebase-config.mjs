@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Firebase Analytics Demo</title>
-    <!-- Add type="module" for ES modules -->
-    <script type="module">
+
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
@@ -28,9 +23,4 @@
             page_title: 'Home Page',
             page_location: window.location.href
         });
-    </script>
-</head>
-<body>
-    <h1>Firebase Analytics Demo</h1>
-</body>
-</html>
+    
