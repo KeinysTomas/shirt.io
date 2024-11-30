@@ -166,12 +166,12 @@
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Display total amount
+document.addEventListener('DOMContentLoaded', async function() {
+    // Display total amount from localStorage
     const checkoutTotal = localStorage.getItem('checkoutTotal');
     document.getElementById('checkoutAmount').textContent = checkoutTotal;
 
-    // Display order items
+    // Display order items from localStorage
     const checkoutItems = JSON.parse(localStorage.getItem('checkoutItems') || '[]');
     const orderItemsContainer = document.getElementById('orderItems');
 
