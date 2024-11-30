@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Gateway</title>
+    <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Add EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("rwp1ZizG0cGBettBt");
+        })();
+    </script>
 </head>
 <body>
-    <body>
     <div class="container">
 
 
@@ -129,83 +134,206 @@
         </div>
     </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
 
-        // Retrieve cart data from localStorage
-        const cartItems = JSON.parse(localStorage.getItem('checkoutItems'));
-        const total = localStorage.getItem('checkoutTotal');
 
-        // Display order summary
-        const orderItemsList = document.getElementById('order-items');
-        const orderTotal = document.getElementById('order-total');
+document.addEventListener('DOMContentLoaded', function() {
+    // Display total amount
+    const checkoutTotal = localStorage.getItem('checkoutTotal');
+    document.getElementById('checkoutAmount').textContent = checkoutTotal;
 
-        cartItems.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = `${item.name} - Quantity: ${item.quantity} - Subtotal: £${item.subtotal.toFixed(2)}`;
-            orderItemsList.appendChild(li);
+    // Display order items
+    const checkoutItems = JSON.parse(localStorage.getItem('checkoutItems') || '[]');
+    const orderItemsContainer = document.getElementById('orderItems');
+
+    checkoutItems.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'order-item';
+        itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="item-details">
+                <div class="item-name">${item.name}</div>
+                <div class="item-quantity">Quantity: ${item.quantity}</div>
+                <div class="item-price">Price: £${item.subtotal.toFixed(2)}</div>
+            </div>
+        `;
+        orderItemsContainer.appendChild(itemElement);
+    });
+});
+
+function showPurchaseNotification(message) {
+    const notification = document.getElementById('purchaseNotification');
+    const messageText = notification.querySelector('.message-text');
+    messageText.textContent = message;
+    
+    notification.classList.add('show');
+    
+    // Hide notification after 5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 5000);
+}
+
+function sendOrderConfirmationEmail(order) {
+    const checkoutItems = JSON.parse(localStorage.getItem('checkoutItems') || '[]');
+    
+    const orderItemsHTML = checkoutItems
+        .map(item => `
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">${item.name}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">${item.quantity}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">£${item.subtotal.toFixed(2)}</td>
+            </tr>
+        `)
+        .join('');
+
+    const orderItemsTable = `
+        <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+            <tr style="background-color: #f8f9fa;">
+                <th style="padding: 12px; border: 1px solid #ddd; text-align: center;">Product Name</th>
+                <th style="padding: 12px; border: 1px solid #ddd; text-align: center;">Quantity</th>
+                <th style="padding: 12px; border: 1px solid #ddd; text-align: center;">Price</th>
+            </tr>
+            ${orderItemsHTML}
+            <tr>
+                <td colspan="2" style="padding: 10px; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; border-right: 1px solid #ddd; text-align: right;"><strong>Shipping Cost:</strong></td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center;">£2.99</td>
+            </tr>
+        </table>
+    `;
+
+    const totalAmount = typeof order.totalAmount === 'string' 
+        ? parseFloat(order.totalAmount.replace('£', '')) 
+        : order.totalAmount;
+
+    const templateParams = {
+        to_email: order.customerDetails.email,
+        to_name: order.customerDetails.fullName,
+        order_id: order.orderId,
+        order_date: new Date().toLocaleString(),
+        shipping_cost: '£2.99',
+        total_amount: `£${totalAmount.toFixed(2)}`,
+        order_items: orderItemsTable,
+        address: order.customerDetails.address,
+        city: order.customerDetails.city,
+        post_code: order.customerDetails.postCode,
+        status: 'Order Confirmed'
+    };
+
+    return emailjs.send('service_gp9s5ii', 'template_w1h1bn7', templateParams);
+}
+
+function processCheckout(event) {
+    event.preventDefault();
+    
+    document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+
+    const formData = {
+        fullName: document.getElementById('fullName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        postCode: document.getElementById('postCode').value.trim(),
+        cardName: document.getElementById('cardName').value.trim(),
+        cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
+        expYear: document.getElementById('expYear').value.trim(),
+        cvv: document.getElementById('cvv').value.trim()
+    };
+
+    const validations = {
+        fullName: value => value.length >= 2,
+        email: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+        address: value => value.length >= 5,
+        city: value => value.length >= 2,
+        postCode: value => /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/i.test(value),
+        cardName: value => value.length >= 2,
+        cardNumber: value => /^\d{16}$/.test(value),
+        expYear: value => {
+            if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(value)) return false;
+            let [month, year] = value.split('/');
+            let currentDate = new Date();
+            let currentYear = currentDate.getFullYear() % 100;
+            let currentMonth = currentDate.getMonth() + 1;
+            year = parseInt(year);
+            month = parseInt(month);
+            return (year > currentYear || (year === currentYear && month >= currentMonth));
+        },
+        cvv: value => /^\d{3,4}$/.test(value)
+    };
+
+    let isValid = true;
+
+    for (const [field, value] of Object.entries(formData)) {
+        if (!validations[field](value)) {
+            document.getElementById(`${field}Error`).style.display = 'block';
+            isValid = false;
+        }
+    }
+
+    if (isValid) {
+        try {
+            const order = OrderStorage.saveOrder(formData);
+            simulatePaymentProcessing(order);
+        } catch (error) {
+            console.error('Error saving order:', error);
+            showPurchaseNotification('There was an error processing your order. Please try again.');
+        }
+    }
+}
+
+function simulatePaymentProcessing(order) {
+    const submitBtn = document.querySelector('.submit-btn');
+    submitBtn.value = 'Processing...';
+    submitBtn.disabled = true;
+
+    sendOrderConfirmationEmail(order)
+        .then(response => {
+            console.log('Email sent successfully:', response);
+            
+            setTimeout(() => {
+                const successMessage = `Order Successfully Placed!\nOrder ID: ${order.orderId}\nTotal Paid: ${order.totalAmount}\nA confirmation email has been sent to ${order.customerDetails.email}`;
+                
+                showPurchaseNotification(successMessage);
+                
+                OrderStorage.clearCart();
+        
+                // Delay redirect to allow notification to be visible
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+            }, 2000);
+        })
+        .catch(error => {
+            console.error('Failed to send email:', error);
+            showPurchaseNotification('Order placed successfully, but there was an issue sending the confirmation email. Please check your order details in your account.');
+            OrderStorage.clearCart();
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
         });
-
-        orderTotal.textContent = total;
-
-        // Stripe configuration
-        const stripe = Stripe('YOUR_STRIPE_PUBLISHABLE_KEY');
-        const elements = stripe.elements();
-        const card = elements.create('card');
-        card.mount('#card-element');
-
-        const form = document.getElementById('payment-form');
-        const submitButton = document.getElementById('submit-button');
-
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            submitButton.disabled = true;
-
-            const { token, error } = await stripe.createToken(card);
-
-            if (error) {
-                const errorElement = document.getElementById('card-errors');
-                errorElement.textContent = error.message;
-                submitButton.disabled = false;
-            } else {
-                // Process the payment and store order details in Firestore
-                const order = {
-                    items: cartItems,
-                    total: total,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    paymentToken: token.id
-                };
-
-                try {
-                    const docRef = await db.collection('orders').add(order);
-                    console.log('Order stored with ID: ', docRef.id);
-                    // Clear cart data from localStorage
-                    localStorage.removeItem('cartData');
-                    localStorage.removeItem('checkoutItems');
-                    localStorage.removeItem('checkoutTotal');
-                    // Redirect to a success page or show a success message
-                    alert('Payment successful! Order ID: ' + docRef.id);
-                    // You can redirect to a success page here
-                    // window.location.href = 'success.html';
-                } catch (error) {
-                    console.error('Error storing order: ', error);
-                    alert('An error occurred while processing your order. Please try again.');
-                    submitButton.disabled = false;
-                }
-            }
-        });
+}
+       
     </script>
+
+    <script src="script.js"></script>
+    <script src="orderStorage.js"></script>
+
 </body>
 </html>
