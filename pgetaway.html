@@ -252,7 +252,7 @@ function sendOrderConfirmationEmail(order) {
     return emailjs.send('service_gp9s5ii', 'template_w1h1bn7', templateParams);
 }
 
-function processCheckout(event) {
+async function processCheckout(event) {
     event.preventDefault();
     
     document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
@@ -301,7 +301,7 @@ function processCheckout(event) {
 
     if (isValid) {
         try {
-            const order = OrderStorage.saveOrder(formData);
+            const order = await OrderStorage.saveOrder(formData);
             simulatePaymentProcessing(order);
         } catch (error) {
             console.error('Error saving order:', error);
