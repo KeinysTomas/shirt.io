@@ -2,40 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Payment Gateway</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Add EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            emailjs.init("rwp1ZizG0cGBettBt");
-        })();
-    </script>
-    <!-- Add Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAWkJwdhk9VdT24ykFVv4TpkNtm_WDXMh4",
-            authDomain: "shirtkj.firebaseapp.com",
-            projectId: "shirtkj",
-            storageBucket: "shirtkj.firebasestorage.app",
-            messagingSenderId: "643296189935",
-            appId: "1:643296189935:web:34d6b484eb43aaad35aa1a",
-            measurementId: "G-ZLBVCE5TZV"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.db = db;
-    </script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
+    <body>
     <div class="container">
 
 
@@ -154,100 +129,83 @@
         </div>
     </div>
 
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-    <script type="module">
-        import OrderStorage from './OrderStorage.js';
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Your existing code for displaying total amount and order items
+        // Retrieve cart data from localStorage
+        const cartItems = JSON.parse(localStorage.getItem('checkoutItems'));
+        const total = localStorage.getItem('checkoutTotal');
+
+        // Display order summary
+        const orderItemsList = document.getElementById('order-items');
+        const orderTotal = document.getElementById('order-total');
+
+        cartItems.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `${item.name} - Quantity: ${item.quantity} - Subtotal: £${item.subtotal.toFixed(2)}`;
+            orderItemsList.appendChild(li);
         });
 
-        function showPurchaseNotification(message) {
-            // Your existing showPurchaseNotification function
-        }
+        orderTotal.textContent = total;
 
-        function sendOrderConfirmationEmail(order) {
-            // Your existing sendOrderConfirmationEmail function
-        }
+        // Stripe configuration
+        const stripe = Stripe('YOUR_STRIPE_PUBLISHABLE_KEY');
+        const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
 
-        async function processCheckout(event) {
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit-button');
+
+        form.addEventListener('submit', async (event) => {
             event.preventDefault();
-            
-            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+            submitButton.disabled = true;
 
-            const formData = {
-                fullName: document.getElementById('fullName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                address: document.getElementById('address').value.trim(),
-                city: document.getElementById('city').value.trim(),
-                postCode: document.getElementById('postCode').value.trim(),
-                cardName: document.getElementById('cardName').value.trim(),
-                cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
-                expYear: document.getElementById('expYear').value.trim(),
-                cvv: document.getElementById('cvv').value.trim()
-            };
+            const { token, error } = await stripe.createToken(card);
 
-            const validations = {
-                // Your existing validations
-            };
+            if (error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+                submitButton.disabled = false;
+            } else {
+                // Process the payment and store order details in Firestore
+                const order = {
+                    items: cartItems,
+                    total: total,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    paymentToken: token.id
+                };
 
-            let isValid = true;
-
-            for (const [field, value] of Object.entries(formData)) {
-                if (!validations[field](value)) {
-                    document.getElementById(`${field}Error`).style.display = 'block';
-                    isValid = false;
-                }
-            }
-
-            if (isValid) {
                 try {
-                    const order = await OrderStorage.saveOrder(formData);
-                    simulatePaymentProcessing(order);
+                    const docRef = await db.collection('orders').add(order);
+                    console.log('Order stored with ID: ', docRef.id);
+                    // Clear cart data from localStorage
+                    localStorage.removeItem('cartData');
+                    localStorage.removeItem('checkoutItems');
+                    localStorage.removeItem('checkoutTotal');
+                    // Redirect to a success page or show a success message
+                    alert('Payment successful! Order ID: ' + docRef.id);
+                    // You can redirect to a success page here
+                    // window.location.href = 'success.html';
                 } catch (error) {
-                    console.error('Error saving order:', error);
-                    showPurchaseNotification('There was an error processing your order. Please try again.');
+                    console.error('Error storing order: ', error);
+                    alert('An error occurred while processing your order. Please try again.');
+                    submitButton.disabled = false;
                 }
             }
-        }
-
-        function simulatePaymentProcessing(order) {
-            const submitBtn = document.querySelector('.submit-btn');
-            submitBtn.value = 'Processing...';
-            submitBtn.disabled = true;
-
-            sendOrderConfirmationEmail(order)
-                .then(response => {
-                    console.log('Email sent successfully:', response);
-                    
-                    setTimeout(() => {
-                        const successMessage = `Order Successfully Placed!\nOrder ID: ${order.orderId}\nTotal Paid: ${order.totalAmount}\nA confirmation email has been sent to ${order.customerDetails.email}`;
-                        
-                        showPurchaseNotification(successMessage);
-                        
-                        OrderStorage.clearCart();
-                
-                        // Delay redirect to allow notification to be visible
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 3000);
-                    }, 2000);
-                })
-                .catch(error => {
-                    console.error('Failed to send email:', error);
-                    showPurchaseNotification('Order placed successfully, but there was an issue sending the confirmation email. Please check your order details in your account.');
-                    OrderStorage.clearCart();
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 3000);
-                });
-        }
-
-        window.processCheckout = processCheckout;
+        });
     </script>
-
-    <!-- Remove these script tags as they are no longer needed -->
-     
-
 </body>
 </html>
