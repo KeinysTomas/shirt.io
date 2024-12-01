@@ -16,16 +16,30 @@
     </script>
 
 <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-    import { firebaseConfig } from 'firebase-settings.mjs';
-    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAWkJwdhk9VdT24ykFVv4TpkNtm_WDXMh4",
+        authDomain: "shirtkj.firebaseapp.com",
+        projectId: "shirtkj",
+        storageBucket: "shirtkj.firebasestorage.app",
+        messagingSenderId: "643296189935",
+        appId: "1:643296189935:web:34d6b484eb43aaad35aa1a",
+        measurementId: "G-ZLBVCE5TZV"
+    };
+
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    
-    // Make db available globally
-    window.db = db;
+    const analytics = getAnalytics(app);
+
+    // Log page view event
+    logEvent(analytics, 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href
+    });
 </script>
+
 </head>
 <body>
     <div class="container">
