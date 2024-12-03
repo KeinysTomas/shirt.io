@@ -266,25 +266,30 @@
         }
     
         function updateOrderStatus(orderId, newStatus) {
-            let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            const orderIndex = orders.findIndex(order => order.orderId === orderId);
-            
-            if (orderIndex !== -1) {
-                orders[orderIndex].status = newStatus;
-                orders[orderIndex].statusUpdateDate = new Date().toISOString();
-                localStorage.setItem('orders', JSON.stringify(orders));
+    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const orderIndex = orders.findIndex(order => order.orderId === orderId);
     
-                // If status is changed to "shipped" and no tracking number exists, prompt for it
-                if (newStatus === 'shipped' && !orders[orderIndex].trackingNumber) {
-                    updateTrackingInfo(orderId);
-                }
-    
-                displayOrders();
-                updateDashboard();
-            }
+    if (orderIndex !== -1) {
+        orders[orderIndex].status = newStatus;
+        orders[orderIndex].statusUpdateDate = new Date().toISOString();
+        localStorage.setItem('orders', JSON.stringify(orders));
+
+        // Log status change event
+        logEvent(window.firebaseAnalytics, 'order_status_update', {
+            order_id: orderId,
+            new_status: newStatus
+        });
+
+        if (newStatus === 'shipped' && !orders[orderIndex].trackingNumber) {
+            updateTrackingInfo(orderId);
         }
-    
-        function updateTrackingInfo(orderId) {
+
+        displayOrders();
+        updateDashboard();
+    }
+}
+
+function updateTrackingInfo(orderId) {
     const trackingNumber = prompt("Enter tracking number:");
     if (trackingNumber) {
         let orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -294,6 +299,12 @@
             const order = orders[orderIndex];
             order.trackingNumber = trackingNumber;
             localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Log tracking number update
+            logEvent(window.firebaseAnalytics, 'tracking_number_added', {
+                order_id: orderId,
+                tracking_number: trackingNumber
+            });
 
 
 
