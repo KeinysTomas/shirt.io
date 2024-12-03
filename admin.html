@@ -160,6 +160,22 @@
             emailjs.init("rwp1ZizG0cGBettBt");
         })();
     </script>
+    
+    <!-- Add Firebase imports -->
+    <script type="module">
+        import { app, analytics } from './firebase-config.mjs';
+        import { logEvent } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+        // Log admin page view
+        logEvent(analytics, 'page_view', {
+            page_title: 'Admin Dashboard',
+            page_location: window.location.href
+        });
+
+        // Make Firebase app available globally
+        window.firebaseApp = app;
+        window.firebaseAnalytics = analytics;
+    </script>
 </head>
 <body>
     <h1>Admin Dashboard</h1>
