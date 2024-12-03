@@ -39,13 +39,9 @@
         page_location: window.location.href
     });
 </script>
-
 </head>
 <body>
     <div class="container">
-
-
-
         <div class="order-summary">
             <h3>Order Summary</h3>
             <div id="orderItems"></div>
@@ -54,11 +50,6 @@
                 <p>Total to pay: <span id="checkoutAmount"></span></p>
             </div>
         </div>
-
-
-
-
-
         <form id="checkoutForm" onsubmit="processCheckout(event)">
             <div class="row">
                 <div class="col">
@@ -126,30 +117,9 @@
                     </div>
                 </div>
             </div>
-
             <input type="submit" value="Complete Purchase" class="submit-btn">
         </form>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="purchase-notification" id="purchaseNotification">
         <div class="purchase-notification-header">Order Confirmation</div>
         <div class="purchase-message">
@@ -159,27 +129,7 @@
             <div class="message-text"></div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <script>
-
-
-
 document.addEventListener('DOMContentLoaded', async function() {
     // Display total amount from localStorage
     const checkoutTotal = localStorage.getItem('checkoutTotal');
@@ -354,12 +304,9 @@ function simulatePaymentProcessing(order) {
                 window.location.href = 'index.html';
             }, 3000);
         });
-}
-       
+}      
     </script>
-
 <script src="script.js"></script>
 <script type="module" src="orderStorage.js"></script>
-
 </body>
 </html>
