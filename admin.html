@@ -236,21 +236,32 @@
         }
     
         function deleteOrder(orderId) {
-            orderToDelete = orderId;
-            document.getElementById('deleteModal').style.display = 'block';
-        }
+    orderToDelete = orderId;
+    document.getElementById('deleteModal').style.display = 'block';
     
-        function confirmDelete() {
-            if (orderToDelete) {
-                let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-                orders = orders.filter(order => order.orderId !== orderToDelete);
-                localStorage.setItem('orders', JSON.stringify(orders));
-                displayOrders();
-                updateDashboard();
-            }
-            document.getElementById('deleteModal').style.display = 'none';
-            orderToDelete = null;
-        }
+    // Log delete attempt
+    logEvent(window.firebaseAnalytics, 'delete_order_attempt', {
+        order_id: orderId
+    });
+}
+
+function confirmDelete() {
+    if (orderToDelete) {
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        orders = orders.filter(order => order.orderId !== orderToDelete);
+        localStorage.setItem('orders', JSON.stringify(orders));
+
+        // Log successful deletion
+        logEvent(window.firebaseAnalytics, 'order_deleted', {
+            order_id: orderToDelete
+        });
+
+        displayOrders();
+        updateDashboard();
+    }
+    document.getElementById('deleteModal').style.display = 'none';
+    orderToDelete = null;
+}
     
         function cancelDelete() {
             document.getElementById('deleteModal').style.display = 'none';
