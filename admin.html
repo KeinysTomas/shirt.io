@@ -216,30 +216,29 @@
 
     <script>
         let orderToDelete = null;
-    
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-buttons button').forEach(button => {
-                button.classList.remove('active');
-            });
-    
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-    
-            if (tabName === 'orders') {
-                displayOrders();
-            } else if (tabName === 'overview') {
-                updateDashboard();
-            }
-        }
-    
-        function deleteOrder(orderId) {
+
+function showTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-buttons button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    document.getElementById(tabName).classList.add('active');
+    event.target.classList.add('active');
+
+    if (tabName === 'orders') {
+        displayOrders();
+    } else if (tabName === 'overview') {
+        updateDashboard();
+    }
+}
+
+function deleteOrder(orderId) {
     orderToDelete = orderId;
     document.getElementById('deleteModal').style.display = 'block';
     
-    // Log delete attempt
     logEvent(window.firebaseAnalytics, 'delete_order_attempt', {
         order_id: orderId
     });
@@ -251,7 +250,6 @@ function confirmDelete() {
         orders = orders.filter(order => order.orderId !== orderToDelete);
         localStorage.setItem('orders', JSON.stringify(orders));
 
-        // Log successful deletion
         logEvent(window.firebaseAnalytics, 'order_deleted', {
             order_id: orderToDelete
         });
@@ -262,21 +260,21 @@ function confirmDelete() {
     document.getElementById('deleteModal').style.display = 'none';
     orderToDelete = null;
 }
-    
-        function cancelDelete() {
-            document.getElementById('deleteModal').style.display = 'none';
-            orderToDelete = null;
-        }
-    
-        function initializeNewOrder(order) {
-            return {
-                ...order,
-                status: 'new',
-                timestamp: order.timestamp || new Date().toISOString()
-            };
-        }
-    
-        function updateOrderStatus(orderId, newStatus) {
+
+function cancelDelete() {
+    document.getElementById('deleteModal').style.display = 'none';
+    orderToDelete = null;
+}
+
+function initializeNewOrder(order) {
+    return {
+        ...order,
+        status: 'new',
+        timestamp: order.timestamp || new Date().toISOString()
+    };
+}
+
+function updateOrderStatus(orderId, newStatus) {
     let orders = JSON.parse(localStorage.getItem('orders') || '[]');
     const orderIndex = orders.findIndex(order => order.orderId === orderId);
     
@@ -285,7 +283,6 @@ function confirmDelete() {
         orders[orderIndex].statusUpdateDate = new Date().toISOString();
         localStorage.setItem('orders', JSON.stringify(orders));
 
-        // Log status change event
         logEvent(window.firebaseAnalytics, 'order_status_update', {
             order_id: orderId,
             new_status: newStatus
@@ -311,45 +308,36 @@ function updateTrackingInfo(orderId) {
             order.trackingNumber = trackingNumber;
             localStorage.setItem('orders', JSON.stringify(orders));
 
-            // Log tracking number update
             logEvent(window.firebaseAnalytics, 'tracking_number_added', {
                 order_id: orderId,
                 tracking_number: trackingNumber
             });
 
-
-
-
-            // Format order items HTML
             const orderItemsHTML = `
-    <table style="width: 100%; border-collapse: collapse;">
-        <tr style="background-color: #f5f5f5;">
-            <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Item</th>
-            <th style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">Quantity</th>
-            <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Price</th>
-        </tr>
-        ${order.orderItems.map(item => `
-            <tr>
-                <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${item.name}</td>
-                <td style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">${item.quantity}</td>
-                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">£${item.price}</td>
-            </tr>
-        `).join('')}
-        <tr>
-            <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Shipping Cost:</td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">£${order.shippingCost || '2.99'}</td>
-        </tr>
-        <tr>
-            <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Total:</td>
-            <td style="padding: 10px; text-align: right; font-weight: bold;">${order.totalAmount}</td>
-        </tr>
-    </table>
-`;
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="background-color: #f5f5f5;">
+                        <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Item</th>
+                        <th style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">Quantity</th>
+                        <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Price</th>
+                    </tr>
+                    ${order.orderItems.map(item => `
+                        <tr>
+                            <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${item.name}</td>
+                            <td style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">${item.quantity}</td>
+                            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">£${item.price}</td>
+                        </tr>
+                    `).join('')}
+                    <tr>
+                        <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Shipping Cost:</td>
+                        <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">£${order.shippingCost || '2.99'}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Total:</td>
+                        <td style="padding: 10px; text-align: right; font-weight: bold;">${order.totalAmount}</td>
+                    </tr>
+                </table>
+            `;
 
-
-
-
-            // Send shipping notification email
             const templateParams = {
                 to_email: order.customerDetails.email,
                 to_name: order.customerDetails.fullName,
@@ -377,168 +365,167 @@ function updateTrackingInfo(orderId) {
         }
     }
 }
-    
-        function updateDashboard() {
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            const activeOrders = orders.filter(order => order.status !== 'completed').length;
-            document.getElementById('activeOrders').textContent = activeOrders;
-            const completedOrders = orders.filter(order => order.status === 'completed').length;
-            document.getElementById('completedOrders').textContent = completedOrders;
-        }
-    
-        function downloadOrderDetails(order) {
-            const orderText = `
-    Order Details
-    ------------
-    Order ID: ${order.orderId}
-    Status: ${order.status || 'new'}
-    Date: ${new Date(order.timestamp).toLocaleString()}
-    Total: ${order.totalAmount}
-    Email: ${order.customerDetails.email}
-    
-    // Modify the shipping address section to:
-    Shipping Address
-    ---------------
-    ${order.customerDetails.fullName}
-    ${order.customerDetails.address}
-    ${order.customerDetails.city}
-    ${order.customerDetails.postCode}
-    
-    ${order.trackingNumber ? `Tracking Number: ${order.trackingNumber}\n` : ''}
-    
-    Order Items
-    -----------
-    ${order.orderItems.map(item => `${item.name} - Quantity: ${item.quantity} - Price: ${item.price}`).join('\n')}
-    `;
-    
-            const blob = new Blob([orderText], { type: 'text/plain' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `order-${order.orderId}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-        }
-    
-        function displayOrders() {
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            const ordersContainer = document.getElementById('ordersList');
-    
-            if (orders.length === 0) {
-                ordersContainer.innerHTML = '<div class="dashboard-card">No orders found</div>';
-                return;
-            }
-    
-            orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-    
-            ordersContainer.innerHTML = orders.map(order => {
-                if (!order.status || order.status === '' || order.status === 'completed') {
-                    const orderTimestamp = new Date(order.timestamp);
-                    const currentTime = new Date();
-                    const timeDifference = currentTime - orderTimestamp;
-                    const minutesSinceOrder = timeDifference / (1000 * 60);
-                    
-                    if (minutesSinceOrder < 5) {
-                        order.status = 'new';
-                    }
-                }
-                
-                return `
-                    <div class="order-card status-${order.status}">
-                        <div>
-                            <strong>Order ID:</strong> ${order.orderId}<br>
-                            <strong>Date:</strong> ${new Date(order.timestamp).toLocaleString()}<br>
-                            <strong>Total:</strong> ${order.totalAmount}<br>
-                            <select class="status-select" onchange="updateOrderStatus('${order.orderId}', this.value)">
-                                <option value="new" ${order.status === 'new' ? 'selected' : ''}>New</option>
-                                <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
-                                <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
-                                <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
-                                <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
-                            </select>
-                            ${order.status === 'shipped' ? `
-                                <div class="tracking-info">
-                                    ${order.trackingNumber ? 
-                                        `Tracking: ${order.trackingNumber}` : 
-                                        `<button onclick="updateTrackingInfo('${order.orderId}')" class="button">Add Tracking</button>`
-                                    }
-                                </div>
-                            ` : ''}
-                        </div>
-                        <div>
-                            <h4>Shipping Address:</h4>
-                            <p>${order.customerDetails.fullName}<br>
-                            ${order.customerDetails.address}<br>
-                            ${order.customerDetails.city}<br>
-                            ${order.customerDetails.postCode}</p>
-                        </div>
-                        <div>
-                            <h4>Items:</h4>
-                            ${order.orderItems.map(item => `
-                                <div>${item.name} - Qty: ${item.quantity}</div>
-                            `).join('')}
-                            <div class="button-group">
-                                <button class="button" onclick="window.print()">Print</button>
-                                <button class="button" onclick='downloadOrderDetails(${JSON.stringify(order).replace(/'/g, "&apos;")})'>Download</button>
-                            </div>
-                            <button class="delete-button" onclick="deleteOrder('${order.orderId}')">Delete Order</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-    
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'orders') {
-                let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-                let modified = false;
-                
-                orders = orders.map(order => {
-                    if (!order.status || order.status === '') {
-                        modified = true;
-                        return {
-                            ...order,
-                            status: 'new',
-                            timestamp: order.timestamp || new Date().toISOString()
-                        };
-                    }
-                    return order;
-                });
-    
-                if (modified) {
-                    localStorage.setItem('orders', JSON.stringify(orders));
-                }
-                
-                displayOrders();
-                updateDashboard();
-            }
-        });
-    
-        document.addEventListener('DOMContentLoaded', () => {
-            let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            let modified = false;
+
+function updateDashboard() {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const activeOrders = orders.filter(order => order.status !== 'completed').length;
+    document.getElementById('activeOrders').textContent = activeOrders;
+    const completedOrders = orders.filter(order => order.status === 'completed').length;
+    document.getElementById('completedOrders').textContent = completedOrders;
+}
+
+function downloadOrderDetails(order) {
+    const orderText = `
+Order Details
+------------
+Order ID: ${order.orderId}
+Status: ${order.status || 'new'}
+Date: ${new Date(order.timestamp).toLocaleString()}
+Total: ${order.totalAmount}
+Email: ${order.customerDetails.email}
+
+Shipping Address
+---------------
+${order.customerDetails.fullName}
+${order.customerDetails.address}
+${order.customerDetails.city}
+${order.customerDetails.postCode}
+
+${order.trackingNumber ? `Tracking Number: ${order.trackingNumber}\n` : ''}
+
+Order Items
+-----------
+${order.orderItems.map(item => `${item.name} - Quantity: ${item.quantity} - Price: ${item.price}`).join('\n')}
+`;
+
+    const blob = new Blob([orderText], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `order-${order.orderId}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+}
+
+function displayOrders() {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const ordersContainer = document.getElementById('ordersList');
+
+    if (orders.length === 0) {
+        ordersContainer.innerHTML = '<div class="dashboard-card">No orders found</div>';
+        return;
+    }
+
+    orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    ordersContainer.innerHTML = orders.map(order => {
+        if (!order.status || order.status === '' || order.status === 'completed') {
+            const orderTimestamp = new Date(order.timestamp);
+            const currentTime = new Date();
+            const timeDifference = currentTime - orderTimestamp;
+            const minutesSinceOrder = timeDifference / (1000 * 60);
             
-            orders = orders.map(order => {
-                if (!order.status || order.status === '') {
-                    modified = true;
-                    return {
-                        ...order,
-                        status: 'new',
-                        timestamp: order.timestamp || new Date().toISOString()
-                    };
-                }
-                return order;
-            });
-    
-            if (modified) {
-                localStorage.setItem('orders', JSON.stringify(orders));
+            if (minutesSinceOrder < 5) {
+                order.status = 'new';
             }
-    
-            updateDashboard();
-            displayOrders();
+        }
+        
+        return `
+            <div class="order-card status-${order.status}">
+                <div>
+                    <strong>Order ID:</strong> ${order.orderId}<br>
+                    <strong>Date:</strong> ${new Date(order.timestamp).toLocaleString()}<br>
+                    <strong>Total:</strong> ${order.totalAmount}<br>
+                    <select class="status-select" onchange="updateOrderStatus('${order.orderId}', this.value)">
+                        <option value="new" ${order.status === 'new' ? 'selected' : ''}>New</option>
+                        <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                        <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                        <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                        <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
+                    </select>
+                    ${order.status === 'shipped' ? `
+                        <div class="tracking-info">
+                            ${order.trackingNumber ? 
+                                `Tracking: ${order.trackingNumber}` : 
+                                `<button onclick="updateTrackingInfo('${order.orderId}')" class="button">Add Tracking</button>`
+                            }
+                        </div>
+                    ` : ''}
+                </div>
+                <div>
+                    <h4>Shipping Address:</h4>
+                    <p>${order.customerDetails.fullName}<br>
+                    ${order.customerDetails.address}<br>
+                    ${order.customerDetails.city}<br>
+                    ${order.customerDetails.postCode}</p>
+                </div>
+                <div>
+                    <h4>Items:</h4>
+                    ${order.orderItems.map(item => `
+                        <div>${item.name} - Qty: ${item.quantity}</div>
+                    `).join('')}
+                    <div class="button-group">
+                        <button class="button" onclick="window.print()">Print</button>
+                        <button class="button" onclick='downloadOrderDetails(${JSON.stringify(order).replace(/'/g, "&apos;")})'>Download</button>
+                    </div>
+                    <button class="delete-button" onclick="deleteOrder('${order.orderId}')">Delete Order</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+window.addEventListener('storage', function(e) {
+    if (e.key === 'orders') {
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        let modified = false;
+        
+        orders = orders.map(order => {
+            if (!order.status || order.status === '') {
+                modified = true;
+                return {
+                    ...order,
+                    status: 'new',
+                    timestamp: order.timestamp || new Date().toISOString()
+                };
+            }
+            return order;
         });
+
+        if (modified) {
+            localStorage.setItem('orders', JSON.stringify(orders));
+        }
+        
+        displayOrders();
+        updateDashboard();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    let modified = false;
+    
+    orders = orders.map(order => {
+        if (!order.status || order.status === '') {
+            modified = true;
+            return {
+                ...order,
+                status: 'new',
+                timestamp: order.timestamp || new Date().toISOString()
+            };
+        }
+        return order;
+    });
+
+    if (modified) {
+        localStorage.setItem('orders', JSON.stringify(orders));
+    }
+
+    updateDashboard();
+    displayOrders();
+});
     </script>
 </body>
 </html>
