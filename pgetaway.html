@@ -140,16 +140,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     const orderItemsContainer = document.getElementById('orderItems');
 
     checkoutItems.forEach(item => {
-    const itemElement = document.createElement('div');
-    itemElement.className = 'order-item';
-    itemElement.innerHTML = `
-        <div class="item-details">
-            <div class="item-name">${item.name}</div>
-            <div class="item-quantity">Quantity: ${item.quantity}</div>
-            <div class="item-price">Price: £${item.subtotal.toFixed(2)}</div>
-        </div>
-    `;
-    orderItemsContainer.appendChild(itemElement);
+        const itemElement = document.createElement('div');
+        itemElement.className = 'order-item';
+        itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="item-details">
+                <div class="item-name">${item.name}</div>
+                <div class="item-quantity">Quantity: ${item.quantity}</div>
+                <div class="item-price">Price: £${item.subtotal.toFixed(2)}</div>
+            </div>
+        `;
+        orderItemsContainer.appendChild(itemElement);
     });
 });
 
