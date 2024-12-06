@@ -17,18 +17,18 @@ class OrderStorage {
     static db = getFirestore(this.app);
 
     static async saveOrder(formData) {
-        // Format address in UK postal format
-        const formattedAddress = `${formData.fullName}\n${formData.address}\n${formData.city}\n${formData.postCode}`.toUpperCase();
-
         const orderData = {
             orderId: 'ORD-' + Date.now(),
             timestamp: new Date().toISOString(),
-            shippingLabel: formattedAddress, // Added formatted address for easy printing
-            orderDetails: {
-                items: JSON.parse(localStorage.getItem('checkoutItems') || '[]'),
-                total: localStorage.getItem('checkoutTotal'),
+            customerDetails: {
+                fullName: formData.fullName,
+                email: formData.email,
+                address: formData.address,
+                city: formData.city,
+                postCode: formData.postCode
             },
-            customerEmail: formData.email, // Keeping email separate for correspondence
+            orderItems: JSON.parse(localStorage.getItem('checkoutItems') || '[]'),
+            totalAmount: localStorage.getItem('checkoutTotal'),
             status: 'completed'
         };
 
