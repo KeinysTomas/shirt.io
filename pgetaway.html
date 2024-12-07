@@ -278,6 +278,15 @@ function simulatePaymentProcessing(order) {
     submitBtn.value = 'Processing...';
     submitBtn.disabled = true;
 
+    // Make sure order exists and has the required properties before proceeding
+    if (!order || !order.customerDetails || !order.customerDetails.email) {
+        console.error('Invalid order data:', order);
+        showPurchaseNotification('There was an error processing your order. Please try again.');
+        submitBtn.value = 'Complete Purchase';
+        submitBtn.disabled = false;
+        return;
+    }
+
     sendOrderConfirmationEmail(order)
         .then(response => {
             console.log('Email sent successfully:', response);
@@ -289,7 +298,6 @@ function simulatePaymentProcessing(order) {
                 
                 OrderStorage.clearCart();
         
-                // Delay redirect to allow notification to be visible
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 3000);
