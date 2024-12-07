@@ -16,36 +16,39 @@ class OrderStorage {
     static db = getFirestore(this.app);
 
     static async saveOrder(formData) {
-        // Format order items without images
         const orderItems = JSON.parse(localStorage.getItem('checkoutItems') || '[]')
             .map(item => ({
                 name: item.name,
                 quantity: item.quantity,
                 subtotal: item.subtotal
             }));
-
-        // Format address in UK postal format
+    
         const formattedAddress = `${formData.fullName}\n${formData.address}\n${formData.city}\n${formData.postCode}`.toUpperCase();
-
+    
         const orderData = {
             orderId: 'ORD-' + Date.now(),
             timestamp: new Date().toISOString(),
+            customerDetails: {
+                fullName: formData.fullName,
+                email: formData.email.toLowerCase(),
+                address: formData.address,
+                city: formData.city,
+                postCode: formData.postCode
+            },
             formattedAddress: formattedAddress,
-            email: formData.email.toLowerCase(),
             items: orderItems,
             totalAmount: localStorage.getItem('checkoutTotal'),
             status: 'completed'
         };
-
+    
         try {
             const docRef = await addDoc(collection(this.db, "orders"), orderData);
             console.log("Order saved to Firebase with ID: ", docRef.id);
-
-            // Keep local storage functionality for compatibility
+    
             const orders = JSON.parse(localStorage.getItem('orders') || '[]');
             orders.push(orderData);
             localStorage.setItem('orders', JSON.stringify(orders));
-
+    
             return orderData;
         } catch (error) {
             console.error("Error saving order: ", error);
