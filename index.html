@@ -454,45 +454,7 @@
 
 
 
-    <section id="FullProductDescription" class="section-p1">
-        <div class="faq-container">
-            <h2>Frequently Asked Questions</h2>
-            <div class="faq-list">
-                <div class="faq-item open">
-                    <div class="faq-question">
-                        What is your return policy?
-                        <span class="faq-toggle"></span>
-                    </div>
-                    <div class="faq-separator"></div>
-                    <div class="faq-answer"><p>We offer a 30-day return policy for all unused items in their original packaging.</p></div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        How long does shipping take?
-                        <span class="faq-toggle"></span>
-                    </div>
-                    <div class="faq-separator"></div>
-                    <div class="faq-answer"><p>Shipping typically takes 3-5 business days for domestic orders and 7-14 days for international orders.</p></div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Do you offer gift wrapping?
-                        <span class="faq-toggle"></span>
-                    </div>
-                    <div class="faq-separator"></div>
-                    <div class="faq-answer"><p>Yes, we offer gift wrapping services for an additional $5 per item.</p></div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        What payment methods do you accept?
-                        <span class="faq-toggle"></span>
-                    </div>
-                    <div class="faq-separator"></div>
-                    <div class="faq-answer"><p>We accept all major credit cards, PayPal, and Apple Pay.</p></div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
     <section id="newsletter" class="section-p1 section-m1">
         <div class="newstext">
             <h3>Sign up for Newsletters</h3>
@@ -553,28 +515,7 @@
             <p>© 2024 Copyright Ecommerce store</p>
         </div>
     </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-             const faqItems = document.querySelectorAll('.faq-item');
- 
-             faqItems.forEach(item => {
-                 const question = item.querySelector('.faq-question');
-                 
-                 question.addEventListener('click', () => {
-                     if (item.classList.contains('open')) {
-                         item.classList.remove('open');
-                     } else {
-                         faqItems.forEach(otherItem => {
-                             if (otherItem !== item) {
-                                 otherItem.classList.remove('open');
-                             }
-                         });
-                         item.classList.add('open');
-                     }
-                 });
-             });
-         });
-     </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <script src="script.js"></script>  
     <script src="simple-search.js"></script>  
