@@ -23,15 +23,16 @@ class OrderStorage {
                 subtotal: item.subtotal
             }));
     
-        // Create formatted address with explicit line breaks and proper spacing
-        const addressLines = [
-            formData.fullName.trim(),
-            formData.address.trim(),
-            formData.city.trim(),
-            formData.postCode.trim()
-        ].map(line => line.toUpperCase());
+        // Format address components with explicit line breaks
+        const addressComponents = {
+            name: formData.fullName.trim().toUpperCase(),
+            address: formData.address.trim().toUpperCase(),
+            city: formData.city.trim().toUpperCase(),
+            postCode: formData.postCode.trim().toUpperCase()
+        };
 
-        const formattedAddress = addressLines.join('\n');
+        // Create formatted address with explicit line breaks
+        const formattedAddress = `${addressComponents.name}\n${addressComponents.address}\n${addressComponents.city}\n${addressComponents.postCode}`;
     
         const orderData = {
             orderId: 'ORD-' + Date.now(),
@@ -44,6 +45,7 @@ class OrderStorage {
                 postCode: formData.postCode
             },
             formattedAddress: formattedAddress,
+            addressComponents: addressComponents, // Store components separately
             items: orderItems,
             totalAmount: localStorage.getItem('checkoutTotal'),
             status: 'completed'
