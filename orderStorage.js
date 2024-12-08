@@ -23,7 +23,15 @@ class OrderStorage {
                 subtotal: item.subtotal
             }));
     
-        const formattedAddress = `${formData.fullName}\n${formData.address}\n${formData.city}\n${formData.postCode}`.toUpperCase();
+        // Create formatted address with explicit line breaks and proper spacing
+        const addressLines = [
+            formData.fullName.trim(),
+            formData.address.trim(),
+            formData.city.trim(),
+            formData.postCode.trim()
+        ].map(line => line.toUpperCase());
+
+        const formattedAddress = addressLines.join('\n');
     
         const orderData = {
             orderId: 'ORD-' + Date.now(),
