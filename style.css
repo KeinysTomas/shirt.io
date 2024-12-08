@@ -2611,6 +2611,59 @@ td ul {
   .right-column p:last-child {
     margin-bottom: 20px;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* single product btn */
+  #proDetails .single-pro-details button {
+    margin: 30px auto 0 auto;
+  }
+  
+  
+  
+  
+  
+  
+  /* pgetawaySubmission */
+  
+  
+  .purchase-notification {
+    width: 96vw;
+    height: auto;
+    min-height: 200px;
+    padding: 20px;
+  }
+  
+  .purchase-notification-header {
+    font-size: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .purchase-message {
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .message-text {
+    font-size: 16px;
+    width: 100%;
+    padding: 0 10px;
+  }
 }
 
 
@@ -2621,39 +2674,6 @@ td ul {
 
 
 
-
-
-
-
-
-
-/* pgetawaySubmission */
-
-
-.purchase-notification {
-  width: 96vw;
-  height: auto;
-  min-height: 200px;
-  padding: 20px;
-}
-
-.purchase-notification-header {
-  font-size: 20px;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-}
-
-.purchase-message {
-  flex-direction: column;
-  align-items: center;
-  text-align: left;
-}
-
-.message-text {
-  font-size: 16px;
-  width: 100%;
-  padding: 0 10px;
-}
 
 
 
